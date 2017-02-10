@@ -7,10 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class Player {
     /** Static bitmap to reduce memory usage. */
-    public static Bitmap globalBitmap;
-    private final Bitmap bitmap;
+    public static ArrayList<Bitmap> globalBitmap;
+    private Bitmap bitmap;
     private final byte frameTime;
     private int frameTimeCounter;
     private final int width;
@@ -20,12 +22,15 @@ public class Player {
     private float speedX;
     private float speedY;
     private GameView view;
+    private int nextPlayerFrame;
 
     public Player(Context context, GameView view) {
         if(globalBitmap == null) {
-            globalBitmap = Util.getScaledBitmapAlpha8(context, R.drawable.frame1);
+            globalBitmap = new ArrayList<>();
+            globalBitmap.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
+            globalBitmap.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
         }
-        this.bitmap = globalBitmap;
+        this.bitmap = globalBitmap.get(1);
         this.width = this.bitmap.getWidth();
         this.height = this.bitmap.getHeight();
         this.frameTime = 3;		// the frame will change every 3 runs
@@ -66,6 +71,18 @@ public class Player {
             this.speedY = getMaxSpeed();
         }
 
+        // bottom of the screen
+        if (this.y > 950) {
+            // player died
+            Log.i("Move", "You died");
+        }
+        else {
+            // move
+            this.x += speedX;
+            this.y += speedY;
+        }
+        Log.i("Move position", "X : " + this.x + " | Y : " + this.y);
+
         // manage frames
 /*        if(row != 3){
             // not dead
@@ -78,8 +95,6 @@ public class Player {
             }
         }
 */
-        this.x += speedX;
-        this.y += speedY;
     }
 
     protected void changeToNextFrame(){
@@ -99,6 +114,7 @@ public class Player {
     }
 
     public void draw(Canvas canvas) {
+        this.bitmap = globalBitmap.get(this.frameTimeCounter % 2);
         canvas.drawBitmap(bitmap, x, y , null);
     }
 }

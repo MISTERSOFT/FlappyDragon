@@ -11,20 +11,20 @@ import android.view.SurfaceView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameView extends SurfaceView implements Runnable {
+public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
-    private SurfaceHolder holder;
+//    private SurfaceHolder holder;
     private boolean paused = true;
     private Timer timer = new Timer();
     private TimerTask timerTask;
     private Player player;
-    private Background background;
+//    private Background background;
 
     public GameView(Context context) {
         super(context);
-        player = new Player(context, this);
-        background = new Background(context, this);
-        holder = getHolder();
+        this.player = new Player(context, this);
+        this.background = new Background(context, this, R.drawable.game_background);
+        this.holder = getHolder();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,23 +82,25 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public void run() {
         player.move();
-        draw();
+        this.draw();
     }
 
-    private void draw() {
-        while(!holder.getSurface().isValid()){
-			/*wait*/
-            try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
-        }
-        Canvas canvas = holder.lockCanvas();
-        if (canvas != null) {
-            drawCanvas(canvas);
-        }
-        holder.unlockCanvasAndPost(canvas);
-    }
+//    private void draw() {
+//        while(!holder.getSurface().isValid()){
+//			/*wait*/
+//            try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
+//        }
+//        Canvas canvas = holder.lockCanvas();
+//        if (canvas != null) {
+//            drawCanvas(canvas);
+//        }
+//        holder.unlockCanvasAndPost(canvas);
+//    }
 
-    private void drawCanvas(Canvas canvas) {
-        background.draw(canvas);
+    @Override
+    protected void drawCanvas(Canvas canvas) {
+//        background.draw(canvas);
+        super.drawCanvas(canvas);
         player.draw(canvas);
         if (paused) {
             canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
