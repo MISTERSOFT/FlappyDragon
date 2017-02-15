@@ -1,8 +1,7 @@
-package network.iut.org.flappydragon;
+package me.sofianehamadi.flyingbird;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
 
 public class GameActivity extends AppCompatActivity {
 

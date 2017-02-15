@@ -1,13 +1,10 @@
-package network.iut.org.flappydragon;
+package me.sofianehamadi.flyingbird;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
-import java.util.ArrayList;
 
 /**
  * Created by MISTERSOFT on 10/02/2017.

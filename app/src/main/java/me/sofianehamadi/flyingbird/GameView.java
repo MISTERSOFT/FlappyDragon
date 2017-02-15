@@ -1,4 +1,4 @@
-package network.iut.org.flappydragon;
+package me.sofianehamadi.flyingbird;
 
 import android.content.Context;
 import android.graphics.Canvas;

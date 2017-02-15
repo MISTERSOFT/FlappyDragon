@@ -1,10 +1,8 @@
-package network.iut.org.flappydragon;
+package me.sofianehamadi.flyingbird;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.Log;
 
 import java.util.ArrayList;

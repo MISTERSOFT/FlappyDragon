@@ -1,13 +1,8 @@
-package network.iut.org.flappydragon;
+package me.sofianehamadi.flyingbird;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Base64;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 /**
  * Created by MISTERSOFT on 10/02/2017.

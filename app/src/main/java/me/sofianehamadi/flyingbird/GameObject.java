@@ -1,12 +1,10 @@
-package network.iut.org.flappydragon;
+package me.sofianehamadi.flyingbird;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
-
-import network.iut.org.flappydragon.GameView;
 
 /**
  * Created by MISTERSOFT on 12/02/2017.
