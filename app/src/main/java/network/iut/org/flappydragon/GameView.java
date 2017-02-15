@@ -5,9 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,13 +17,23 @@ public class GameView extends AppView {
     private Timer timer = new Timer();
     private TimerTask timerTask;
     private Player player;
-//    private Background background;
+    private ArrayList<Background> backgrounds;
+    private static final int BACKGROUND_WIDTH = 1920;
+    private int offsetBackgroundOneX;
+    private int offsetBackgroundTwoX;
+    private static final int DEFAULT_OFFSET_BACKGROUND_ONE = 0;
+    private static final int DEFAULT_OFFSET_BACKGROUND_TWO = -1920;
+    private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
 
     public GameView(Context context) {
         super(context);
         this.player = new Player(context, this);
-        this.background = new Background(context, this, R.drawable.game_background);
-        this.holder = getHolder();
+        this.backgrounds = new ArrayList<>();
+        this.backgrounds.add(new Background(context, this, R.drawable.game_background));
+        this.backgrounds.add(new Background(context, this, R.drawable.game_background_revert));
+        this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
+        this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
+//        this.holder = getHolder();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -85,22 +94,48 @@ public class GameView extends AppView {
         this.draw();
     }
 
-//    private void draw() {
-//        while(!holder.getSurface().isValid()){
-//			/*wait*/
-//            try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
-//        }
-//        Canvas canvas = holder.lockCanvas();
-//        if (canvas != null) {
-//            drawCanvas(canvas);
-//        }
-//        holder.unlockCanvasAndPost(canvas);
-//    }
+    @Override
+    protected void draw() {
+        super.draw();
+        this.offsetBackgroundOneX += BACKGROUND_PROGRESS_PER_TICK;
+        this.offsetBackgroundTwoX += BACKGROUND_PROGRESS_PER_TICK;
+    }
 
     @Override
     protected void drawCanvas(Canvas canvas) {
-//        background.draw(canvas);
-        super.drawCanvas(canvas);
+        Background bg1 = this.backgrounds.get(0);
+        if (this.offsetBackgroundOneX < BACKGROUND_WIDTH) {
+            bg1.draw(canvas, this.offsetBackgroundOneX);
+        }
+        // the player will begin to see a black background, so we draw the next background
+        // that is fixed on the right side of the previous background
+        Background bg2 = this.backgrounds.get(1);
+        if (this.offsetBackgroundTwoX < BACKGROUND_WIDTH) {
+            bg2.draw(canvas, this.offsetBackgroundTwoX);
+        }
+        Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
+        // reset position of the first background
+        if (this.offsetBackgroundOneX > BACKGROUND_WIDTH) {
+            Log.i("reset bg 1", "");
+            this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
+//            this.backgrounds.set(0, bg2);
+//            this.backgrounds.set(1, bg1);
+        }
+        if (this.offsetBackgroundOneX > BACKGROUND_WIDTH) {
+            this.backgrounds.remove(0);
+            this.backgrounds.add(bg1);
+        }
+        if (this.offsetBackgroundTwoX > BACKGROUND_WIDTH) {
+            Log.i("reset bg 2", "");
+            this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
+//            this.backgrounds.set(0, bg1);
+//            this.backgrounds.set(1, bg2);
+        }
+        if (this.offsetBackgroundTwoX > BACKGROUND_WIDTH) {
+            this.backgrounds.remove(0);
+            this.backgrounds.add(bg2);
+        }
+
         player.draw(canvas);
         if (paused) {
             canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());

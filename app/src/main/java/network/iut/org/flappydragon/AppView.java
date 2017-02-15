@@ -2,8 +2,12 @@ package network.iut.org.flappydragon;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+
+import java.util.ArrayList;
 
 /**
  * Created by MISTERSOFT on 10/02/2017.
@@ -11,8 +15,10 @@ import android.view.SurfaceView;
 
 public abstract class AppView extends SurfaceView implements Runnable {
 
+    protected View view;
     protected SurfaceHolder holder;
     protected Background background;
+    protected Canvas canvas;
 
     public AppView(Context context) {
         super(context);
@@ -27,14 +33,19 @@ public abstract class AppView extends SurfaceView implements Runnable {
 			/*wait*/
             try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
         }
-        Canvas canvas = holder.lockCanvas();
+//        Canvas canvas = holder.lockCanvas();
+        this.canvas = holder.lockCanvas();
         if (canvas != null) {
             drawCanvas(canvas);
         }
         holder.unlockCanvasAndPost(canvas);
     }
 
+//    protected void drawCanvas(Canvas canvas) {
+//        background.draw(canvas);
+//    }
+
     protected void drawCanvas(Canvas canvas) {
-        background.draw(canvas);
+        this.background.draw(canvas);
     }
 }

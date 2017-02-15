@@ -22,7 +22,6 @@ public class Player {
     private float speedX;
     private float speedY;
     private GameView view;
-    private int nextPlayerFrame;
 
     public Player(Context context, GameView view) {
         if(globalBitmap == null) {

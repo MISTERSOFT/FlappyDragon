@@ -16,7 +16,24 @@ public class Background {
         this.view = view;
     }
 
+//    public void draw(Canvas canvas) {
+//        canvas.drawBitmap(background, new Rect(0, 0, background.getWidth(), background.getHeight()), new Rect(0, 0, view.getWidth(), view.getHeight()), null);
+//    }
+
+    public void draw(Canvas canvas, int offsetX) {
+        Rect src = new Rect(0, 0, view.getWidth(), view.getHeight());
+        src.offsetTo(offsetX, 0);
+        Rect dest = new Rect(0, 0, view.getWidth(), view.getHeight());
+        canvas.drawBitmap(this.background, src, dest, null);
+    }
+
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(background, new Rect(0, 0, background.getWidth(), background.getHeight()), new Rect(0, 0, view.getWidth(), view.getHeight()), null);
+        Rect src = new Rect(0, 0, view.getWidth(), view.getHeight());
+        Rect dest = new Rect(0, 0, view.getWidth(), view.getHeight());
+        canvas.drawBitmap(this.background, src, dest, null);
+    }
+
+    public Bitmap getBackground() {
+        return background;
     }
 }
