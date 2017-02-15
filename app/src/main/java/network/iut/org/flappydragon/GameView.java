@@ -18,11 +18,13 @@ public class GameView extends AppView {
     private TimerTask timerTask;
     private Player player;
     private ArrayList<Background> backgrounds;
-    private static final int BACKGROUND_WIDTH = 1920;
+//    private static final int BACKGROUND_WIDTH = 1920;
+    private final int BACKGROUND_WIDTH;
     private int offsetBackgroundOneX;
     private int offsetBackgroundTwoX;
-    private static final int DEFAULT_OFFSET_BACKGROUND_ONE = 0;
-    private static final int DEFAULT_OFFSET_BACKGROUND_TWO = -1920;
+    private final int DEFAULT_OFFSET_BACKGROUND_ONE = 0;
+//    private final int DEFAULT_OFFSET_BACKGROUND_TWO = -1920;
+    private final int DEFAULT_OFFSET_BACKGROUND_TWO;
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
 
     public GameView(Context context) {
@@ -31,6 +33,8 @@ public class GameView extends AppView {
         this.backgrounds = new ArrayList<>();
         this.backgrounds.add(new Background(context, this, R.drawable.game_background));
         this.backgrounds.add(new Background(context, this, R.drawable.game_background_revert));
+        this.BACKGROUND_WIDTH = this.backgrounds.get(0).getBackground().getWidth();
+        this.DEFAULT_OFFSET_BACKGROUND_TWO = -BACKGROUND_WIDTH;
         this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
         this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
 //        this.holder = getHolder();
@@ -103,37 +107,23 @@ public class GameView extends AppView {
 
     @Override
     protected void drawCanvas(Canvas canvas) {
-        Background bg1 = this.backgrounds.get(0);
         if (this.offsetBackgroundOneX < BACKGROUND_WIDTH) {
-            bg1.draw(canvas, this.offsetBackgroundOneX);
+            this.backgrounds.get(0).draw(canvas, this.offsetBackgroundOneX);
         }
         // the player will begin to see a black background, so we draw the next background
         // that is fixed on the right side of the previous background
-        Background bg2 = this.backgrounds.get(1);
         if (this.offsetBackgroundTwoX < BACKGROUND_WIDTH) {
-            bg2.draw(canvas, this.offsetBackgroundTwoX);
+            this.backgrounds.get(1).draw(canvas, this.offsetBackgroundTwoX);
         }
         Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
         // reset position of the first background
-        if (this.offsetBackgroundOneX > BACKGROUND_WIDTH) {
-            Log.i("reset bg 1", "");
-            this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
-//            this.backgrounds.set(0, bg2);
-//            this.backgrounds.set(1, bg1);
+        // Don't know why a little piece of screen still bugged with all good values
+        // so I add 10px to the new position of each background and this has solved the problem
+        if (this.offsetBackgroundOneX >= BACKGROUND_WIDTH) {
+            this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_TWO + 10;
         }
-        if (this.offsetBackgroundOneX > BACKGROUND_WIDTH) {
-            this.backgrounds.remove(0);
-            this.backgrounds.add(bg1);
-        }
-        if (this.offsetBackgroundTwoX > BACKGROUND_WIDTH) {
-            Log.i("reset bg 2", "");
-            this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
-//            this.backgrounds.set(0, bg1);
-//            this.backgrounds.set(1, bg2);
-        }
-        if (this.offsetBackgroundTwoX > BACKGROUND_WIDTH) {
-            this.backgrounds.remove(0);
-            this.backgrounds.add(bg2);
+        if (this.offsetBackgroundTwoX >= BACKGROUND_WIDTH) {
+            this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO + 10;
         }
 
         player.draw(canvas);
