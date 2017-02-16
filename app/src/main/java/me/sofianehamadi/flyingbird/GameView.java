@@ -10,26 +10,31 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import me.sofianehamadi.flyingbird.GUI.CoinScore;
+
 public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
-//    private SurfaceHolder holder;
-    private boolean paused = true;
-    private Timer timer = new Timer();
-    private TimerTask timerTask;
-    private Player player;
-    private ArrayList<Background> backgrounds;
-//    private static final int BACKGROUND_WIDTH = 1920;
-    private final int BACKGROUND_WIDTH;
-    private int offsetBackgroundOneX;
-    private int offsetBackgroundTwoX;
     private final int DEFAULT_OFFSET_BACKGROUND_ONE = 0;
-//    private final int DEFAULT_OFFSET_BACKGROUND_TWO = -1920;
     private final int DEFAULT_OFFSET_BACKGROUND_TWO;
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
+    private final int BACKGROUND_WIDTH;
+
+    private int offsetBackgroundOneX;
+    private int offsetBackgroundTwoX;
+
+    //    private SurfaceHolder holder;
+    private boolean paused = true;
+    private TimerTask timerTask;
+    private Timer timer = new Timer();
+    private ArrayList<Background> backgrounds;
+
+    private Player player;
+    private CoinScore coinScore;
 
     public GameView(Context context) {
         super(context);
         this.player = new Player(context, this);
+        this.coinScore = new CoinScore(context, R.drawable.coin1, 20, 20);
         this.backgrounds = new ArrayList<>();
         this.backgrounds.add(new Background(context, this, R.drawable.game_background));
         this.backgrounds.add(new Background(context, this, R.drawable.game_background_revert));
@@ -127,6 +132,7 @@ public class GameView extends AppView {
         }
 
         player.draw(canvas);
+        coinScore.draw(canvas);
         if (paused) {
             canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
         }
