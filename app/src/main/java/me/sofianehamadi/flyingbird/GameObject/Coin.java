@@ -21,6 +21,7 @@ import me.sofianehamadi.flyingbird.Util;
 public class Coin extends GameObject {
 
     private static final int SPEED = 20;
+    private static final int NUMBER_COIN_ROWS = 4;
 
 //    private static int LEFT_OUTSIDE_MIN_SCREEN_WIDTH;
 //    private static int LEFT_OUTSIDE_MAX_SCREEN_WIDTH;
@@ -76,10 +77,23 @@ public class Coin extends GameObject {
     public void generateRandomPosition(Canvas canvas) {
         int minOutsideWidth = canvas.getWidth() + 20;
         int maxOutsideWidth = minOutsideWidth * 2;
-        int maxOutsideHeight = canvas.getHeight();
+//        int maxOutsideHeight = canvas.getHeight();
+        int[] rowsHeight = this.generateRows(canvas.getHeight());
 
         this.x = random.nextInt(maxOutsideWidth - minOutsideWidth) + minOutsideWidth;
-        this.y = random.nextInt(maxOutsideHeight);
+//        this.y = random.nextInt(maxOutsideHeight);
+        this.y = rowsHeight[random.nextInt(NUMBER_COIN_ROWS)];
+    }
+
+    private int[] generateRows(int canvasHeight) {
+        int[] rowsHeight = new int[NUMBER_COIN_ROWS];
+
+        int rowHeight = canvasHeight/ NUMBER_COIN_ROWS;
+        for (int i = 0; i < NUMBER_COIN_ROWS; i++) {
+            rowsHeight[i] = rowHeight * i;
+        }
+
+        return rowsHeight;
     }
 
     public Rect getBounds() {
