@@ -1,10 +1,13 @@
-package me.sofianehamadi.flyingbird;
+package me.sofianehamadi.flyingbird.GameObject;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+
+import me.sofianehamadi.flyingbird.GameView;
 
 /**
  * Created by MISTERSOFT on 12/02/2017.
@@ -15,31 +18,33 @@ public abstract class GameObject {
     private final byte frameTime;
     private int frameTimeCounter;
 
-    protected int healthpoints;
-    protected final int width;
-    protected final int height;
     protected int x;
     protected int y;
-    protected float speedX;
-    protected float speedY;
 
     protected GameView view;
     protected Context context;
 
-    protected ArrayList<Bitmap> sprites;
-    protected Bitmap currentSprite;
-
-
-    public GameObject(Context context, GameView view, ArrayList<Bitmap> _sprites, int health) {
+    public GameObject(Context context, GameView view) {
         this.context = context;
         this.view = view;
-        this.sprites = _sprites;
-        this.currentSprite = this.sprites.get(0);
-        this.width = this.currentSprite.getWidth();
-        this.height = this.currentSprite.getHeight();
-        this.healthpoints = health;
 
         this.frameTime = 3; // the frame will change every 3 runs
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     protected void changeToNextFrame() {

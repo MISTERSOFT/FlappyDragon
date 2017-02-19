@@ -15,7 +15,6 @@ public abstract class AppView extends SurfaceView implements Runnable {
     protected View view;
     protected SurfaceHolder holder;
     protected Background background;
-    protected Canvas canvas;
 
     public AppView(Context context) {
         super(context);
@@ -30,8 +29,7 @@ public abstract class AppView extends SurfaceView implements Runnable {
 			/*wait*/
             try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
         }
-//        Canvas canvas = holder.lockCanvas();
-        this.canvas = holder.lockCanvas();
+        Canvas canvas = holder.lockCanvas();
         if (canvas != null) {
             drawCanvas(canvas);
         }

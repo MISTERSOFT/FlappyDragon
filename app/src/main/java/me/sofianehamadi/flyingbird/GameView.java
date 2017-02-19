@@ -1,28 +1,34 @@
 package me.sofianehamadi.flyingbird;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.sofianehamadi.flyingbird.GUI.CoinScore;
+import me.sofianehamadi.flyingbird.GameObject.Coin;
+import me.sofianehamadi.flyingbird.GameObject.Player;
 
 public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
-    private final int DEFAULT_OFFSET_BACKGROUND_ONE = 0;
-    private final int DEFAULT_OFFSET_BACKGROUND_TWO;
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
+    private static final int GENERATE_COINS_NUMBER = 10;
+
+    private final int DEFAULT_OFFSET_BACKGROUND_ONE;
+    private final int DEFAULT_OFFSET_BACKGROUND_TWO;
     private final int BACKGROUND_WIDTH;
 
     private int offsetBackgroundOneX;
     private int offsetBackgroundTwoX;
 
-    //    private SurfaceHolder holder;
+//    private SurfaceHolder holder;
     private boolean paused = true;
     private TimerTask timerTask;
     private Timer timer = new Timer();
@@ -30,19 +36,33 @@ public class GameView extends AppView {
 
     private Player player;
     private CoinScore coinScore;
+    private ArrayList<Coin> coins;
 
     public GameView(Context context) {
         super(context);
+
+        // Init GameObjects and GUI elements
         this.player = new Player(context, this);
-        this.coinScore = new CoinScore(context, R.drawable.coin1, 20, 20);
+        this.coinScore = new CoinScore(context, this, R.drawable.coin1, 20, 20);
+        this.coins = new ArrayList<>();
+        for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
+            Coin c = new Coin(context, this, null);
+            this.coins.add(c);
+        }
+
+        // Init GameView backgrounds
         this.backgrounds = new ArrayList<>();
         this.backgrounds.add(new Background(context, this, R.drawable.game_background));
         this.backgrounds.add(new Background(context, this, R.drawable.game_background_revert));
+
         this.BACKGROUND_WIDTH = this.backgrounds.get(0).getBackground().getWidth();
+        this.DEFAULT_OFFSET_BACKGROUND_ONE  = 0;
         this.DEFAULT_OFFSET_BACKGROUND_TWO = -BACKGROUND_WIDTH;
         this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
         this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
 //        this.holder = getHolder();
+
+        // Start the game in a new thread
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -50,6 +70,7 @@ public class GameView extends AppView {
             }
         }).start();
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -120,7 +141,7 @@ public class GameView extends AppView {
         if (this.offsetBackgroundTwoX < BACKGROUND_WIDTH) {
             this.backgrounds.get(1).draw(canvas, this.offsetBackgroundTwoX);
         }
-        Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
+//        Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
         // reset position of the first background
         // Don't know why a little piece of screen still bugged with all good values
         // so I add 10px to the new position of each background and this has solved the problem
@@ -133,6 +154,13 @@ public class GameView extends AppView {
 
         player.draw(canvas);
         coinScore.draw(canvas);
+        for (Coin c : this.coins) {
+            if (c.getX() < 0) {
+                c.generateRandomPosition(canvas);
+            }
+            c.move();
+            c.draw(canvas);
+        }
         if (paused) {
             canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
         }
