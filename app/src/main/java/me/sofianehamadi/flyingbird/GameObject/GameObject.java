@@ -15,8 +15,8 @@ import me.sofianehamadi.flyingbird.GameView;
 
 public abstract class GameObject {
 
-    private final byte frameTime;
-    private int frameTimeCounter;
+    protected final byte frameTime;
+    protected int frameTimeCounter;
 
     protected int x;
     protected int y;

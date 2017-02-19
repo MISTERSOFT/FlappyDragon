@@ -96,6 +96,17 @@ public class Coin extends GameObject {
         return rowsHeight;
     }
 
+//    private int[] generateColumns(int canvasWidth) {
+//        int[] columnsWidth = new int[NUMBER_COIN_ROWS];
+//
+//        int columnWidth = canvasWidth / NUMBER_COIN_ROWS;
+//        for (int i = 0; i < NUMBER_COIN_ROWS; i++) {
+//            columnsWidth[i] = columnWidth * i;
+//        }
+//
+//        return columnsWidth;
+//    }
+
     public Rect getBounds() {
         return bounds;
     }

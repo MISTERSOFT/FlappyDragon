@@ -26,8 +26,8 @@ public class CoinScore extends GUIObject{
         return totalCoins;
     }
 
-    public void setTotalCoins(int totalCoins) {
-        this.totalCoins = totalCoins;
+    public void add(int n) {
+        this.totalCoins += n;
     }
 
     @Override

@@ -158,6 +158,10 @@ public class GameView extends AppView {
             if (c.getX() < 0) {
                 c.generateRandomPosition(canvas);
             }
+            if (player.getBounds().intersect(c.getBounds())) {
+                this.player.pickUpCoin(c, canvas);
+                this.coinScore.add(1);
+            }
             c.move();
             c.draw(canvas);
         }

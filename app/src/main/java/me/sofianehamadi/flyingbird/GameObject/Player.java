@@ -6,9 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.Shape;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -17,30 +14,24 @@ import me.sofianehamadi.flyingbird.GameView;
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.Util;
 
-public class Player {
+public class Player extends GameObject {
     /** Static bitmap to reduce memory usage. */
     public static ArrayList<Bitmap> globalBitmap;
     private Bitmap bitmap;
-    private final byte frameTime;
-    private int frameTimeCounter;
-    private int x;
-    private int y;
     private Rect bounds; // define player area
     private float speedX;
     private float speedY;
-    private GameView view;
 
     public Player(Context context, GameView view) {
+        super(context, view);
         if(globalBitmap == null) {
             globalBitmap = new ArrayList<>();
             globalBitmap.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
             globalBitmap.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
         }
         this.bitmap = globalBitmap.get(1);
-        this.frameTime = 3;		// the frame will change every 3 runs
         this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
-        this.bounds = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
-        this.view = view;
+        this.bounds = new Rect(bitmap.getHeight(), 0, bitmap.getWidth(), 0);
         this.x = view.getWidth() / 6;
         this.speedX = 0;
     }
@@ -51,16 +42,20 @@ public class Player {
     }
 
     private float getPosTabIncrease() {
-        return - view.getHeight() / 100;
+        return -super.view.getHeight() / 100;
     }
 
     private float getTabSpeed() {
-        return -view.getHeight() / 16f;
+        return -super.view.getHeight() / 16f;
     }
 
+    @Override
     public void move() {
-        changeToNextFrame();
-        bounds.set(x, y, bitmap.getWidth(), bitmap.getHeight());
+        super.changeToNextFrame();
+        Log.i("Position", "X : " + x + " | Y : " + y);
+        int top = y;
+        int bot = top + bitmap.getHeight();
+        this.bounds.set(x, top, bitmap.getWidth(), bot);
         if(speedY < 0){
             // The character is moving up
 //            Log.i("Move", "Moving up");
@@ -105,36 +100,30 @@ public class Player {
 */
     }
 
-    protected void changeToNextFrame(){
-        this.frameTimeCounter++;
-        if(this.frameTimeCounter >= this.frameTime){
-            //TODO Change frame
-            this.frameTimeCounter = 0;
-        }
-    }
-
     private float getSpeedTimeDecrease() {
-        return view.getHeight() / 320;
+        return super.view.getHeight() / 320;
     }
 
     private float getMaxSpeed() {
-        return view.getHeight() / 51.2f;
+        return super.view.getHeight() / 51.2f;
     }
 
     public void pickUpCoin(Coin coin, Canvas canvas) {
-        if (this.bounds.intersect(coin.getBounds())) {
-            // give a new position to the coin outside of the screen
-            coin.generateRandomPosition(canvas);
-            // the GUI is updated in the GameView
-        }
+        // give a new position to the coin outside of the screen
+        coin.generateRandomPosition(canvas);
+        // the GUI is updated in the GameView
     }
 
+    @Override
     public void draw(Canvas canvas) {
         this.bitmap = globalBitmap.get(this.frameTimeCounter % 2);
         canvas.drawBitmap(bitmap, x, y , null);
         Paint p = new Paint();
-        p.setColor(Color.BLUE);
+        p.setColor(Color.argb(125, 50, 50, 50));
         canvas.drawRect(bounds, p);
-//        canvas.drawCircle(this.bitmap.getWidth() / 2, this.bitmap.getHeight() / 2, 0, p);
+    }
+
+    public Rect getBounds() {
+        return bounds;
     }
 }
