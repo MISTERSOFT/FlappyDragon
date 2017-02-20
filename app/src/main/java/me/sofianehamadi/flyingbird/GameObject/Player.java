@@ -11,29 +11,24 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import me.sofianehamadi.flyingbird.GameView;
-import me.sofianehamadi.flyingbird.R;
-import me.sofianehamadi.flyingbird.Util;
 
 public class Player extends GameObject {
-    /** Static bitmap to reduce memory usage. */
-    public static ArrayList<Bitmap> globalBitmap;
-    private Bitmap bitmap;
-    private Rect bounds; // define player area
     private float speedX;
     private float speedY;
 
-    public Player(Context context, GameView view) {
-        super(context, view);
-        if(globalBitmap == null) {
-            globalBitmap = new ArrayList<>();
-            globalBitmap.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
-            globalBitmap.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
-        }
-        this.bitmap = globalBitmap.get(1);
+    public Player(Context context, GameView view, ArrayList<Bitmap> sprites) {
+        super(context, view, sprites);
+
         this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
-        this.bounds = new Rect(bitmap.getHeight(), 0, bitmap.getWidth(), 0);
         this.x = view.getWidth() / 6;
         this.speedX = 0;
+
+        this.hitbox = new Rect(
+                this.gameObjectSprites.get(this.currentSprite).getHeight(),
+                0,
+                this.gameObjectSprites.get(this.currentSprite).getWidth(),
+                0
+        );
     }
 
     public void onTap() {
@@ -52,10 +47,13 @@ public class Player extends GameObject {
     @Override
     public void move() {
         super.changeToNextFrame();
-        Log.i("Position", "X : " + x + " | Y : " + y);
+        Log.i("Player position", "X : " + x + " | Y : " + y);
+
+        // Refresh hitbox position
         int top = y;
-        int bot = top + bitmap.getHeight();
-        this.bounds.set(x, top, bitmap.getWidth(), bot);
+        int bot = top + this.gameObjectSprites.get(this.currentSprite).getHeight();
+        this.hitbox.set(x, top, this.gameObjectSprites.get(this.currentSprite).getWidth(), bot);
+
         if(speedY < 0){
             // The character is moving up
 //            Log.i("Move", "Moving up");
@@ -85,7 +83,7 @@ public class Player extends GameObject {
             this.y = 0;
         }
 //        Log.i("Move position", "X : " + this.x + " | Y : " + this.y);
-        Log.i("Bounds size", ""+bounds.width() + " w | "+bounds.height() + " h");
+        Log.i("Player hitbox size", ""+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
         // manage frames
 /*        if(row != 3){
             // not dead
@@ -116,14 +114,14 @@ public class Player extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        this.bitmap = globalBitmap.get(this.frameTimeCounter % 2);
-        canvas.drawBitmap(bitmap, x, y , null);
+        canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), x, y , null);
+
+        // Show player hitbox
         Paint p = new Paint();
         p.setColor(Color.argb(125, 50, 50, 50));
-        canvas.drawRect(bounds, p);
+        canvas.drawRect(this.hitbox, p);
+
+        this.nextSprite();
     }
 
-    public Rect getBounds() {
-        return bounds;
-    }
 }

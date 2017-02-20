@@ -19,7 +19,8 @@ import me.sofianehamadi.flyingbird.GameObject.Player;
 public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
-    private static final int GENERATE_COINS_NUMBER = 10;
+    private static final int GENERATE_COINS_NUMBER = 1;
+    private static final int COIN_SIZE = 64;
 
     private final int DEFAULT_OFFSET_BACKGROUND_ONE;
     private final int DEFAULT_OFFSET_BACKGROUND_TWO;
@@ -41,16 +42,38 @@ public class GameView extends AppView {
     public GameView(Context context) {
         super(context);
 
-        // Init GameObjects and GUI elements
-        this.player = new Player(context, this);
+        /**
+         * Init GameObjects and GUI elements
+         */
+        // Init player
+        ArrayList<Bitmap> playerSprites = new ArrayList<>();
+        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
+        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
+        this.player = new Player(context, this, playerSprites);
+
+        // Init coinscore
         this.coinScore = new CoinScore(context, this, R.drawable.coin1, 20, 20);
+
+        // Init coins
         this.coins = new ArrayList<>();
+        ArrayList<Bitmap> coinSprites = new ArrayList<>();
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin1, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin2, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin3, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin4, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin5, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin6, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin7, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin8, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin9, COIN_SIZE, COIN_SIZE));
         for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
-            Coin c = new Coin(context, this, null);
+            Coin c = new Coin(context, this, coinSprites);
             this.coins.add(c);
         }
 
-        // Init GameView backgrounds
+        /**
+         * Init GameView backgrounds
+         */
         this.backgrounds = new ArrayList<>();
         this.backgrounds.add(new Background(context, this, R.drawable.game_background));
         this.backgrounds.add(new Background(context, this, R.drawable.game_background_revert));
@@ -62,7 +85,9 @@ public class GameView extends AppView {
         this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
 //        this.holder = getHolder();
 
-        // Start the game in a new thread
+        /**
+         * Start the game in a new thread
+         */
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -153,18 +178,18 @@ public class GameView extends AppView {
         }
 
         player.draw(canvas);
-        coinScore.draw(canvas);
         for (Coin c : this.coins) {
             if (c.getX() < 0) {
                 c.generateRandomPosition(canvas);
             }
-            if (player.getBounds().intersect(c.getBounds())) {
+            if (player.getHitbox().intersect(c.getHitbox())) {
                 this.player.pickUpCoin(c, canvas);
                 this.coinScore.add(1);
             }
             c.move();
             c.draw(canvas);
         }
+        coinScore.draw(canvas);
         if (paused) {
             canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
         }

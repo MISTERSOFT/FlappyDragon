@@ -3,6 +3,7 @@ package me.sofianehamadi.flyingbird.GameObject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -20,15 +21,28 @@ public abstract class GameObject {
 
     protected int x;
     protected int y;
+    protected ArrayList<Bitmap> gameObjectSprites;
+    protected int currentSprite;
+    protected Rect hitbox;
 
     protected GameView view;
     protected Context context;
 
-    public GameObject(Context context, GameView view) {
+    public GameObject(Context context, GameView view, ArrayList<Bitmap> sprites) {
         this.context = context;
         this.view = view;
+        this.gameObjectSprites = sprites;
+        this.currentSprite = 0;
 
         this.frameTime = 3; // the frame will change every 3 runs
+    }
+
+    public Rect getHitbox() {
+        return hitbox;
+    }
+
+    public void setHitbox(Rect hitbox) {
+        this.hitbox = hitbox;
     }
 
     public int getX() {
@@ -52,6 +66,15 @@ public abstract class GameObject {
         if(this.frameTimeCounter >= this.frameTime){
             //TODO Change frame
             this.frameTimeCounter = 0;
+        }
+    }
+
+    protected void nextSprite() {
+        if (currentSprite < gameObjectSprites.size() - 1) {
+            this.currentSprite++;
+        }
+        else {
+            this.currentSprite = 0;
         }
     }
 
