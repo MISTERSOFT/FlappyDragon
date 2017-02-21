@@ -29,11 +29,11 @@ public class Coin extends GameObject {
         super(context, view, sprites);
         rowsHeight = new int[0];
         random = new Random();
-        this.hitbox = new Rect(
-            this.x,
-            this.y,
-            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
-            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight());
+//        this.hitbox = new Rect(
+//            this.x,
+//            this.y,
+//            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
+//            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight());
     }
 
     @Override
@@ -42,9 +42,9 @@ public class Coin extends GameObject {
 
 //        Log.i("Coin hitbox size", "[x,y]=" + this.x + "," + this.y + " - "+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
         // Debug - Show coin hitbox
-        Paint p = new Paint();
-        p.setColor(Color.argb(125, 50, 50, 50));
-        canvas.drawRect(this.hitbox, p);
+//        Paint p = new Paint();
+//        p.setColor(Color.argb(125, 50, 50, 50));
+//        canvas.drawRect(this.hitbox, p);
     }
 
     @Override

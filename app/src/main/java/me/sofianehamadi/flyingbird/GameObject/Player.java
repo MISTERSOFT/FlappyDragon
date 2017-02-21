@@ -23,12 +23,18 @@ public class Player extends GameObject {
         this.x = view.getWidth() / 6;
         this.speedX = 0;
 
-        this.hitbox = new Rect(
-                this.gameObjectSprites.get(this.currentSprite).getHeight(),
-                0,
-                this.gameObjectSprites.get(this.currentSprite).getWidth(),
-                0
-        );
+//        this.hitbox = new Rect(
+//                this.gameObjectSprites.get(this.currentSprite).getHeight(),
+//                0,
+//                this.gameObjectSprites.get(this.currentSprite).getWidth(),
+//                0
+//        );
+//        this.hitbox = new Rect(
+//            this.x,
+//            this.y,
+//            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
+//            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight()
+//        );
     }
 
     public void onTap() {
@@ -50,9 +56,15 @@ public class Player extends GameObject {
         Log.i("Player position", "X : " + x + " | Y : " + y);
 
         // Refresh hitbox position
-        int top = y;
-        int bot = top + this.gameObjectSprites.get(this.currentSprite).getHeight();
-        this.hitbox.set(x, top, this.gameObjectSprites.get(this.currentSprite).getWidth(), bot);
+//        int top = y;
+//        int bot = top + this.gameObjectSprites.get(this.currentSprite).getHeight();
+//        this.hitbox.set(x, top, this.gameObjectSprites.get(this.currentSprite).getWidth(), bot);
+
+        this.hitbox.set(
+            this.x,
+            this.y,
+            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
+            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight());
 
         if(speedY < 0){
             // The character is moving up
@@ -109,14 +121,13 @@ public class Player extends GameObject {
     public void pickUpCoin(Coin coin, Canvas canvas) {
         // give a new position to the coin outside of the screen
         coin.generateRandomPosition(canvas);
-        // the GUI is updated in the GameView
     }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), x, y , null);
 
-        // Show player hitbox
+        // Debug - Show player hitbox
         Paint p = new Paint();
         p.setColor(Color.argb(125, 50, 50, 50));
         canvas.drawRect(this.hitbox, p);
