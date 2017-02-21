@@ -30,20 +30,18 @@ public class Coin extends GameObject {
         rowsHeight = new int[0];
         random = new Random();
         this.hitbox = new Rect(
-//                this.gameObjectSprites.get(this.currentSprite).getHeight(),
-                this.x,
-                0,
-                this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
-                0
-        );
+            this.x,
+            this.y,
+            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
+            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight());
     }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), this.x, this.y, null);
 
-        Log.i("Coin hitbox size", "[x,y]=" + this.x + "," + this.y + " - "+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
-        // Show coin hitbox
+//        Log.i("Coin hitbox size", "[x,y]=" + this.x + "," + this.y + " - "+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
+        // Debug - Show coin hitbox
         Paint p = new Paint();
         p.setColor(Color.argb(125, 50, 50, 50));
         canvas.drawRect(this.hitbox, p);
@@ -56,19 +54,11 @@ public class Coin extends GameObject {
         this.x -= SPEED;
 
         // Refresh hitbox position
-        int top = y;
-        int bot = top + this.gameObjectSprites.get(this.currentSprite).getHeight();
-//        this.hitbox.set(
-//                x,
-//                top,
-//                this.gameObjectSprites.get(this.currentSprite).getWidth(),
-//                bot);
-
         this.hitbox.set(
                 this.x,
                 this.y,
                 this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
-                this.gameObjectSprites.get(this.currentSprite).getHeight());
+                this.y + this.gameObjectSprites.get(this.currentSprite).getHeight());
 
         this.nextSprite();
     }
