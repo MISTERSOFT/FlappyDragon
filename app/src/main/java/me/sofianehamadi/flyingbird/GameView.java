@@ -96,7 +96,6 @@ public class GameView extends AppView {
         }).start();
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         performClick();
