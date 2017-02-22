@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.widget.ImageButton;
 
 import java.util.HashMap;
 
@@ -16,7 +17,14 @@ import me.sofianehamadi.flyingbird.GUI.ButtonTypes;
 
 public class MenuView extends AppView {
 
-    private static HashMap<ButtonTypes, HashMap<ButtonStates, Bitmap>> buttons;
+//    private static HashMap<ButtonTypes, HashMap<ButtonStates, Bitmap>> buttons;
+    private static final int SPACE_BETWEEN_BUTTONS = 100;
+    private static final int BUTTONS_COUNT = 3;
+    private static HashMap<ButtonStates, Bitmap> playButton;
+    private static HashMap<ButtonStates, Bitmap> scoreboardButton;
+    private static HashMap<ButtonStates, Bitmap> aboutButton;
+
+    private static ImageButton btn;
 
     public MenuView(Context context) {
         super(context);
@@ -28,24 +36,40 @@ public class MenuView extends AppView {
         /**
          * Load button images
          */
-        buttons = new HashMap<>();
-        HashMap<ButtonStates, Bitmap> temp = new HashMap<>();
-        // Play button
-        temp.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.play_pressed));
-        temp.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.play_unpressed));
-        buttons.put(ButtonTypes.PLAY, temp);
-        // Scoreboard button
-        temp.clear();
-        temp.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.scoreboard_pressed));
-        temp.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.scoreboard_unpressed));
-        buttons.put(ButtonTypes.SCOREBOARD, temp);
-        // About button
-        temp.clear();
-        temp.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.about_pressed));
-        temp.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.about_unpressed));
-        buttons.put(ButtonTypes.ABOUT, temp);
+//        btn = new ImageButton(context);
+//        btn.setImageBitmap(Util.getScaledBitmapAlpha8(context, R.drawable.play_unpressed));
+//        btn.setLeft((getWidth() / 2) - (playButton.get(ButtonStates.UNPRESSED).getWidth() / 2));
+//        btn.setTop(getHeight() / BUTTONS_COUNT);
 
-        temp.clear();
+//        playButton = new HashMap<>();
+//        playButton.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.play_pressed));
+//        playButton.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.play_unpressed));
+//
+//        scoreboardButton = new HashMap<>();
+//        scoreboardButton.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.scoreboard_pressed));
+//        scoreboardButton.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.scoreboard_unpressed));
+//
+//        aboutButton = new HashMap<>();
+//        aboutButton.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.about_pressed));
+//        aboutButton.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.about_unpressed));
+//        buttons = new HashMap<>();
+//        HashMap<ButtonStates, Bitmap> temp = new HashMap<>();
+        // Play button
+//        temp.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.play_pressed));
+//        temp.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.play_unpressed));
+//        buttons.put(ButtonTypes.PLAY, temp);
+//        // Scoreboard button
+//        temp.clear();
+//        temp.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.scoreboard_pressed));
+//        temp.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.scoreboard_unpressed));
+//        buttons.put(ButtonTypes.SCOREBOARD, temp);
+//        // About button
+//        temp.clear();
+//        temp.put(ButtonStates.PRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.about_pressed));
+//        temp.put(ButtonStates.UNPRESSED, Util.getScaledBitmapAlpha8(context, R.drawable.about_unpressed));
+//        buttons.put(ButtonTypes.ABOUT, temp);
+
+//        temp.clear();
 
         /**
          * Start the game menu in a new thread
@@ -67,11 +91,23 @@ public class MenuView extends AppView {
     protected void drawCanvas(Canvas canvas) {
         super.drawCanvas(canvas);
         this.background.draw(canvas);
-        Bitmap b = buttons.get(ButtonTypes.PLAY).get(ButtonStates.PRESSED);
-//        Bitmap b = Util.getScaledBitmapAlpha8(getContext(), R.drawable.play_unpressed);
-        canvas.drawBitmap(b, getWidth() / 2, getHeight() / 3, new Paint());
 
-//        canvas.drawText("Start", getWidth() / 2, getHeight() / 2, new Paint());
+        // Draw buttons in the center of the screen
+//        canvas.drawBitmap(
+//                playButton.get(ButtonStates.UNPRESSED), // button bitmap
+//                (getWidth() / 2) - (playButton.get(ButtonStates.UNPRESSED).getWidth() / 2), // X axe position
+//                getHeight() / BUTTONS_COUNT, // Y axe position
+//                new Paint());
+//        canvas.drawBitmap(
+//                scoreboardButton.get(ButtonStates.UNPRESSED),
+//                (getWidth() / 2) - (scoreboardButton.get(ButtonStates.UNPRESSED).getWidth() / 2),
+//                getHeight() / BUTTONS_COUNT + SPACE_BETWEEN_BUTTONS,
+//                new Paint());
+//        canvas.drawBitmap(
+//                aboutButton.get(ButtonStates.UNPRESSED),
+//                (getWidth() / 2) - (aboutButton.get(ButtonStates.UNPRESSED).getWidth() / 2),
+//                getHeight() / BUTTONS_COUNT + SPACE_BETWEEN_BUTTONS * 2,
+//                new Paint());
     }
 
 }

@@ -20,7 +20,7 @@ public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
     private static final int GENERATE_COINS_NUMBER = 1;
-    private static final int COIN_SIZE = 64;
+    private static final int COIN_SIZE = 128;
 
     private final int DEFAULT_OFFSET_BACKGROUND_ONE;
     private final int DEFAULT_OFFSET_BACKGROUND_TWO;
