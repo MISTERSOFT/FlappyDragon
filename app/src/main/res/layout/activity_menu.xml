@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_menu"
     android:layout_width="match_parent"
@@ -8,34 +9,64 @@
     android:background="@drawable/game_background"
     tools:context="me.sofianehamadi.flyingbird.MenuActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/coin6"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:scaleX="2"
+        android:scaleY="2" />
+
+    <TextView
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:id="@+id/textView"
+        android:textStyle="normal|bold"
+        android:textSize="24sp"
+        android:layout_marginLeft="5dp" />
+
+
     <ImageButton
         android:id="@+id/play_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/play_unpressed"
         android:layout_marginBottom="340dp"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
 
     <ImageButton
-        android:id="@+id/scoreboard_button"
+        android:id="@+id/shop_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/scoreboard_unpressed"
+        android:background="@drawable/shop_unpressed"
         android:layout_marginBottom="270dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
 
     <ImageButton
-        android:id="@+id/about_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/about_unpressed"
-        android:layout_marginBottom="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+    android:id="@+id/about_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/about_unpressed"
+    android:layout_marginBottom="200dp"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true" />
 
+    <ImageButton
+    android:id="@+id/options_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/options_unpressed"
+    android:layout_marginBottom="130dp"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
