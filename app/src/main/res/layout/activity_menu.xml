@@ -6,67 +6,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentStart="true"
-    android:background="@drawable/game_background"
+    android:background="@drawable/menu_background"
     tools:context="me.sofianehamadi.flyingbird.MenuActivity">
+
+
+    <ImageButton
+        android:id="@+id/shop_button"
+        android:layout_height="wrap_content"
+        android:src="@drawable/shop_unpressed"
+        android:layout_marginBottom="260dp"
+        android:layout_centerHorizontal="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="false"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <ImageButton
+    android:id="@+id/about_button"
+        android:layout_height="wrap_content"
+        android:src="@drawable/about_unpressed"
+        android:layout_marginBottom="180dp"
+        android:layout_centerHorizontal="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="false"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <ImageButton
+    android:id="@+id/options_button"
+        android:layout_height="wrap_content"
+        android:src="@drawable/options_unpressed"
+        android:layout_marginBottom="100dp"
+        android:layout_centerHorizontal="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="false"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play_unpressed"
+        android:layout_marginBottom="340dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_centerInParent="false"
+        android:layout_above="@+id/about_button"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/coin6"
         android:id="@+id/imageView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
         android:scaleX="2"
-        android:scaleY="2" />
+        android:scaleY="2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp" />
 
     <TextView
         android:text="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
-        android:id="@+id/textView"
-        android:textStyle="normal|bold"
+        android:id="@+id/coins_earn"
+        android:fontFamily="sans-serif"
+        android:layout_marginEnd="40dp"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
-        android:layout_marginLeft="5dp" />
-
-
-    <ImageButton
-        android:id="@+id/play_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/play_unpressed"
-        android:layout_marginBottom="340dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
-
-    <ImageButton
-        android:id="@+id/shop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shop_unpressed"
-        android:layout_marginBottom="270dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
-
-    <ImageButton
-    android:id="@+id/about_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/about_unpressed"
-    android:layout_marginBottom="200dp"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentBottom="true" />
-
-    <ImageButton
-    android:id="@+id/options_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/options_unpressed"
-    android:layout_marginBottom="130dp"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentBottom="true" />
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView" />
 
 </RelativeLayout>

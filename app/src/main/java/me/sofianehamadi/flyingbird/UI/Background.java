@@ -1,10 +1,12 @@
-package me.sofianehamadi.flyingbird;
+package me.sofianehamadi.flyingbird.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.SurfaceView;
+
+import me.sofianehamadi.flyingbird.common.Util;
 
 public class Background {
     private SurfaceView view;

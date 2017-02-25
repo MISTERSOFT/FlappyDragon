@@ -1,14 +1,13 @@
-package me.sofianehamadi.flyingbird.GameObject;
+package me.sofianehamadi.flyingbird.gameobject;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 
-import me.sofianehamadi.flyingbird.GameView;
+import me.sofianehamadi.flyingbird.views.GameView;
 
 /**
  * Created by MISTERSOFT on 12/02/2017.

@@ -77,7 +77,7 @@ public class MenuActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         aboutButton.setBackgroundResource(R.drawable.about_unpressed);
                         // TODO
-//                        startActivity(new Intent(MenuActivity.this, GameActivity.class));
+                        startActivity(new Intent(MenuActivity.this, AboutActivity.class));
                         break;
 
                     default: break;
@@ -97,7 +97,7 @@ public class MenuActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         optionsButton.setBackgroundResource(R.drawable.options_unpressed);
                         // TODO
-//                        startActivity(new Intent(MenuActivity.this, GameActivity.class));
+                        startActivity(new Intent(MenuActivity.this, OptionsActivity.class));
                         break;
 
                     default: break;

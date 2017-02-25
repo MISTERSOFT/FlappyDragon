@@ -1,11 +1,11 @@
-package me.sofianehamadi.flyingbird.GUI;
+package me.sofianehamadi.flyingbird.gui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import me.sofianehamadi.flyingbird.GameView;
-import me.sofianehamadi.flyingbird.Util;
+import me.sofianehamadi.flyingbird.views.GameView;
+import me.sofianehamadi.flyingbird.common.Util;
 
 /**
  * Created by MISTERSOFT on 16/02/2017.

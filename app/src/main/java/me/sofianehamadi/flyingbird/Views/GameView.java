@@ -1,4 +1,4 @@
-package me.sofianehamadi.flyingbird;
+package me.sofianehamadi.flyingbird.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,15 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import me.sofianehamadi.flyingbird.GUI.CoinScore;
-import me.sofianehamadi.flyingbird.GameObject.Coin;
-import me.sofianehamadi.flyingbird.GameObject.Player;
+import me.sofianehamadi.flyingbird.ui.Background;
+import me.sofianehamadi.flyingbird.gui.CoinScore;
+import me.sofianehamadi.flyingbird.gameobject.Coin;
+import me.sofianehamadi.flyingbird.gameobject.Player;
+import me.sofianehamadi.flyingbird.R;
+import me.sofianehamadi.flyingbird.common.Util;
 
 public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS

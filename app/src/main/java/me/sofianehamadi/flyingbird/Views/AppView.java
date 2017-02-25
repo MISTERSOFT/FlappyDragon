@@ -1,10 +1,12 @@
-package me.sofianehamadi.flyingbird;
+package me.sofianehamadi.flyingbird.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+
+import me.sofianehamadi.flyingbird.ui.Background;
 
 /**
  * Created by MISTERSOFT on 10/02/2017.
