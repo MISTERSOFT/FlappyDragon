@@ -24,12 +24,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:id="@+id/textView5"
+        android:id="@+id/tvAboutMe1"
         android:textColor="@android:color/black"
         android:layout_below="@+id/tvAboutTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
+
+    <TextView
+        android:text="Sofiane HAMADI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAboutMe2"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/tvAboutMe1"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:text="Find the code source in my repository"
@@ -38,7 +50,7 @@
         android:layout_marginTop="20dp"
         android:id="@+id/tvAboutRepo"
         android:textColor="@android:color/black"
-        android:layout_below="@+id/tvAboutMe"
+        android:layout_below="@+id/tvAboutMe2"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
@@ -56,16 +68,5 @@
         android:layout_below="@+id/tvAboutRepo"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="Sofiane HAMADI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvAboutMe"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/textView5"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

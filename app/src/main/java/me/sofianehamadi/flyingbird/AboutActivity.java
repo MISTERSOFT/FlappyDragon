@@ -15,11 +15,13 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         TextView tvTitle = (TextView) findViewById(R.id.tvAboutTitle);
-        TextView tvMe = (TextView) findViewById(R.id.tvAboutMe);
+        TextView tvMe1 = (TextView) findViewById(R.id.tvAboutMe1);
+        TextView tvMe2 = (TextView) findViewById(R.id.tvAboutMe2);
         TextView tvRepo = (TextView) findViewById(R.id.tvAboutRepo);
 
         tvTitle.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
-        tvMe.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
+        tvMe1.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
+        tvMe2.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
         tvRepo.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
     }
 }
