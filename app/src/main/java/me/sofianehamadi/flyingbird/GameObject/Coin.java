@@ -16,6 +16,8 @@ import me.sofianehamadi.flyingbird.views.GameView;
 
 public class Coin extends GameObject {
 
+    public static final int COIN_SIZE = 64;
+
     private static final int SPEED = 20;
     private static final int NUMBER_COIN_ROWS = 4;
 

@@ -22,7 +22,6 @@ public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
     private static final int GENERATE_COINS_NUMBER = 1;
-    private static final int COIN_SIZE = 128;
 
     private final int DEFAULT_OFFSET_BACKGROUND_ONE;
     private final int DEFAULT_OFFSET_BACKGROUND_TWO;
@@ -59,15 +58,14 @@ public class GameView extends AppView {
         // Init coins
         this.coins = new ArrayList<>();
         ArrayList<Bitmap> coinSprites = new ArrayList<>();
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin1, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin2, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin3, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin4, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin5, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin6, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin7, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin8, COIN_SIZE, COIN_SIZE));
-        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin9, COIN_SIZE, COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin1, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin2, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin3, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin4, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin5, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin6, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin7, Coin.COIN_SIZE, Coin.COIN_SIZE));
+        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin8, Coin.COIN_SIZE, Coin.COIN_SIZE));
         for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
             Coin c = new Coin(context, this, coinSprites);
             this.coins.add(c);
