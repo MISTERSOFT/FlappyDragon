@@ -19,8 +19,10 @@ public abstract class GUIObject {
     protected int y;
     protected Bitmap image;
     protected GameView view;
+    protected Context context;
 
     public GUIObject(Context context, GameView view, int imageId) {
+        this.context = context;
         this.image = Util.getScaledBitmapAlpha8(context, imageId);
         this.view = view;
         this.frameTime = 3;

@@ -12,6 +12,12 @@ import java.util.HashMap;
 public class FontCache {
 
     /**
+     * Font size
+     */
+    public static final Integer TINY = 8;
+    public static final Integer SMALL = 10;
+
+    /**
      * Fonts
      */
     public static final String PixelOperatorMono8 = "PixelOperatorMono8.ttf";

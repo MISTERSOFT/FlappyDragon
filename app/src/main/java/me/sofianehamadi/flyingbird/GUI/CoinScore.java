@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 /**
@@ -34,8 +35,9 @@ public class CoinScore extends GUIObject{
     public void draw(Canvas canvas) {
         canvas.drawBitmap(this.image, this.x, this.y, null);
         Paint text = new Paint();
+        text.setTypeface(FontCache.getTypeface(this.context, FontCache.PixelOperatorMono8));
         text.setTextSize(32);
-        canvas.drawText(""+this.totalCoins, this.x + 50, this.y + 45, text);
+        canvas.drawText(""+this.totalCoins, this.x + 70, this.y + 45, text);
     }
     
 }

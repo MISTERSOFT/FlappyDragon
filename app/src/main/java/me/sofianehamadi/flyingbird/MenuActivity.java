@@ -7,6 +7,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import me.sofianehamadi.flyingbird.common.FontCache;
+import me.sofianehamadi.flyingbird.database.Database;
+import me.sofianehamadi.flyingbird.models.User;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -20,6 +25,22 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        /**
+         * Fetch user information
+         */
+        User user = Database.getInstance(this).getUser();
+
+
+        /**
+         * Change font of the total coin earned
+         */
+        TextView coins_earn = (TextView) findViewById(R.id.coins_earn);
+        coins_earn.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
+        coins_earn.setText(user.getMoney().toString());
+
+        /**
+         * Add listeners on buttons
+         */
         playButton = (ImageButton) findViewById(R.id.play_button);
         shopButton = (ImageButton) findViewById(R.id.shop_button);
         aboutButton = (ImageButton) findViewById(R.id.about_button);
@@ -31,12 +52,12 @@ public class MenuActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         Log.i("Btn - Play", "onTouch: Action_down");
-                        playButton.setBackgroundResource(R.drawable.play_pressed);
+                        playButton.setImageResource(R.drawable.play_pressed);
                         break;
 
                     case MotionEvent.ACTION_UP:
                         Log.i("Btn - Play", "onTouch: Action_up");
-                        playButton.setBackgroundResource(R.drawable.play_unpressed);
+                        playButton.setImageResource(R.drawable.play_unpressed);
                         startActivity(new Intent(MenuActivity.this, GameActivity.class));
                         break;
 
@@ -51,13 +72,13 @@ public class MenuActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        shopButton.setBackgroundResource(R.drawable.shop_pressed);
+                        shopButton.setImageResource(R.drawable.shop_pressed);
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        shopButton.setBackgroundResource(R.drawable.shop_unpressed);
+                        shopButton.setImageResource(R.drawable.shop_unpressed);
                         // TODO
-//                        startActivity(new Intent(MenuActivity.this, GameActivity.class));
+                        startActivity(new Intent(MenuActivity.this, ShopActivity.class));
                         break;
 
                     default: break;
@@ -71,11 +92,11 @@ public class MenuActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        aboutButton.setBackgroundResource(R.drawable.about_pressed);
+                        aboutButton.setImageResource(R.drawable.about_pressed);
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        aboutButton.setBackgroundResource(R.drawable.about_unpressed);
+                        aboutButton.setImageResource(R.drawable.about_unpressed);
                         // TODO
                         startActivity(new Intent(MenuActivity.this, AboutActivity.class));
                         break;
@@ -91,11 +112,11 @@ public class MenuActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        optionsButton.setBackgroundResource(R.drawable.options_pressed);
+                        optionsButton.setImageResource(R.drawable.options_pressed);
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        optionsButton.setBackgroundResource(R.drawable.options_unpressed);
+                        optionsButton.setImageResource(R.drawable.options_unpressed);
                         // TODO
                         startActivity(new Intent(MenuActivity.this, OptionsActivity.class));
                         break;
