@@ -23,11 +23,6 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        int resID = getResources().getIdentifier("bird_angry_idle_1.png", "drawable", getPackageName());
-        int resID2 = getResources().getIdentifier("bird_angry_idle_1", "drawable", getPackageName());
-        int resID3 = getResources().getIdentifier("bird_angry_idle_1.png", "drawable", "me.sofianehamadi.flyingbird");
-        int resID4 = getResources().getIdentifier("bird_angry_idle_1", "drawable", "me.sofianehamadi.flyingbird");
-
         user = Database.getInstance(this).getUser();
         birds = Database.getInstance(this).getAllBirds();
 

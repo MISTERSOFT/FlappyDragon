@@ -14,6 +14,7 @@ import java.util.List;
 
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.FontCache;
+import me.sofianehamadi.flyingbird.gameobject.BirdFactory;
 import me.sofianehamadi.flyingbird.models.Bird;
 import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;
 

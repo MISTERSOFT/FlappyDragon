@@ -15,6 +15,10 @@ public class Bird {
      */
     private Integer price;
     /**
+     * Bird type
+     */
+    private BirdTypeEnum birdType;
+    /**
      * Ressource ID of the image to display in the shop
      */
     private String resourceName;
@@ -31,10 +35,11 @@ public class Bird {
      */
 //    private int order;
 
-    public Bird(Integer id, String name, Integer price, String resourceName, Boolean bought, Boolean equiped) {
+    public Bird(Integer id, String name, Integer price, BirdTypeEnum birdType, String resourceName, Boolean bought, Boolean equiped) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.birdType = birdType;
         this.resourceName = resourceName;
         this.bought = bought;
         this.equiped = equiped;
@@ -88,6 +93,14 @@ public class Bird {
 
     public void setEquiped(Boolean equiped) {
         this.equiped = equiped;
+    }
+
+    public BirdTypeEnum getBirdType() {
+        return birdType;
+    }
+
+    public void setBirdType(BirdTypeEnum birdType) {
+        this.birdType = birdType;
     }
 
 //    public int getOrder() {

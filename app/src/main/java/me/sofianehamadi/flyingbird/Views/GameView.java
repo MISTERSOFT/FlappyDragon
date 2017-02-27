@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import me.sofianehamadi.flyingbird.database.Database;
+import me.sofianehamadi.flyingbird.models.User;
 import me.sofianehamadi.flyingbird.ui.Background;
 import me.sofianehamadi.flyingbird.gui.CoinScore;
 import me.sofianehamadi.flyingbird.gameobject.Coin;
@@ -19,6 +21,7 @@ import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.Util;
 
 public class GameView extends AppView {
+
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
     private static final int GENERATE_COINS_NUMBER = 1;
@@ -40,16 +43,19 @@ public class GameView extends AppView {
     private CoinScore coinScore;
     private ArrayList<Coin> coins;
 
+    private static User userInfo;
+
     public GameView(Context context) {
         super(context);
 
         /**
          * Init GameObjects and GUI elements
          */
+        userInfo = Database.getInstance(context).getUser();
         // Init player
         ArrayList<Bitmap> playerSprites = new ArrayList<>();
-        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
-        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
+//        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
+//        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
         this.player = new Player(context, this, playerSprites);
 
         // Init coinscore

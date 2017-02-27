@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
 import me.sofianehamadi.flyingbird.models.Bird;
+import me.sofianehamadi.flyingbird.models.BirdTypeEnum;
 import me.sofianehamadi.flyingbird.models.User;
 
 /**
@@ -34,6 +36,7 @@ public class Database extends SQLiteOpenHelper {
 
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -43,6 +46,7 @@ public class Database extends SQLiteOpenHelper {
                                  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                  "name TEXT, " +
                                  "price INTEGER, " +
+                                 "type TEXT" +
                                  "resourceName INTEGER, " +
                                  "isBought INTEGER, " +
                                  "isEquiped INTEGER )";
@@ -54,29 +58,32 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(createUserTable);
 
         // Feed bird table
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Joe Angry',    500, 'bird_angry_idle_1',        0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Mac Brown',    250, 'bird_brown_idle_1',        0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Brushy',       100, 'bird_brush_cutter_idle_1', 0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Fry Chicky',   500, 'bird_chicken_idle_1',      0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Ducky',        100, 'bird_duck_idle_1',         0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Grumpy Bird',  350, 'bird_grumpy_idle_1',       0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Monster Bird', 400, 'bird_monster_idle_1',      0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Pinku',        200, 'bird_pink_idle_1',         0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Red Fly',      500, 'bird_red_idle_1',          0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Rocky',        125, 'bird_rock_idle_1',         0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Baka',         300, 'bird_stupid_idle_1',       0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Tiny',         100, 'bird_tiny_idle_1',         0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Whaly',        200, 'bird_weird_idle_1',        0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " VALUES(null, 'Yellow Boy',   200, 'bird_yellow_idle_1',       0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Joe Angry',    500, '" + BirdTypeEnum.ANGRY       .name() + "', 'bird_angry_idle_1',        0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Mac Brown',    250, '" + BirdTypeEnum.BROWN       .name() + "', 'bird_brown_idle_1',        0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Brushy',       100, '" + BirdTypeEnum.BURSH_CUTTER.name() + "', 'bird_brush_cutter_idle_1', 0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Fry Chicky',   500, '" + BirdTypeEnum.CHICKEN     .name() + "', 'bird_chicken_idle_1',      0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Ducky',        100, '" + BirdTypeEnum.DUCK        .name() + "', 'bird_duck_idle_1',         0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Grumpy Bird',  350, '" + BirdTypeEnum.GRUMPY      .name() + "', 'bird_grumpy_idle_1',       0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Monster Bird', 400, '" + BirdTypeEnum.MONSTER     .name() + "', 'bird_monster_idle_1',      0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Pinku',        200, '" + BirdTypeEnum.PINK        .name() + "', 'bird_pink_idle_1',         0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Red Fly',      500, '" + BirdTypeEnum.RED         .name() + "', 'bird_red_idle_1',          0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Rocky',        125, '" + BirdTypeEnum.ROCK        .name() + "', 'bird_rock_idle_1',         0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Baka',         300, '" + BirdTypeEnum.STUPID      .name() + "', 'bird_stupid_idle_1',       0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Tiny',         100, '" + BirdTypeEnum.TINY        .name() + "', 'bird_tiny_idle_1',         0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Whaly',        200, '" + BirdTypeEnum.WEIRD       .name() + "', 'bird_weird_idle_1',        0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Yellow Boy',   200, '" + BirdTypeEnum.YELLOW      .name() + "', 'bird_yellow_idle_1',       0, 0)");
 
         // Feed user table
         db.execSQL("INSERT INTO " + TABLE_USER + " VALUES(1, 0)");
-//        int resID = this.context.getResources().getIdentifier("name of image from database", "drawable", null);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.delete(TABLE_USER, null, null);
+        db.delete(TABLE_BIRD, null, null);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BIRD);
+        onCreate(db);
     }
 
     public User getUser() {
@@ -87,7 +94,6 @@ public class Database extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         user.setId(cursor.getInt(0));
-//        cursor.moveToNext();
         user.setMoney(cursor.getInt(1));
 
         cursor.close();
@@ -118,6 +124,7 @@ public class Database extends SQLiteOpenHelper {
             bird.setId(cursor.getInt(cursor.getColumnIndex("id")));
             bird.setName(cursor.getString(cursor.getColumnIndex("name")));
             bird.setPrice(cursor.getInt(cursor.getColumnIndex("price")));
+            bird.setBirdType(BirdTypeEnum.valueOf(cursor.getString(cursor.getColumnIndex("type"))));
             bird.setResourceName(cursor.getString(cursor.getColumnIndex("resourceName")));
             bird.setBought(this.integerToBoolean(cursor.getInt(cursor.getColumnIndex("isBought"))));
             bird.setEquiped(this.integerToBoolean(cursor.getInt(cursor.getColumnIndex("isEquiped"))));
@@ -129,6 +136,22 @@ public class Database extends SQLiteOpenHelper {
         db.close();
 
         return birds;
+    }
+
+    public Bird getEquipedBird() {
+        Bird bird = new Bird();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BIRD + " WHERE isEquiped = 1", null);
+        cursor.moveToFirst();
+
+        bird.setId(cursor.getInt(0));
+        bird.setBirdType(BirdTypeEnum.valueOf(cursor.getString(cursor.getColumnIndex("type"))));
+
+        cursor.close();
+        db.close();
+
+        return bird;
     }
 
     private boolean integerToBoolean(int value) {
