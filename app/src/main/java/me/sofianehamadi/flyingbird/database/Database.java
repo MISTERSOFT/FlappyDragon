@@ -46,8 +46,8 @@ public class Database extends SQLiteOpenHelper {
                                  "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                  "name TEXT, " +
                                  "price INTEGER, " +
-                                 "type TEXT" +
-                                 "resourceName INTEGER, " +
+                                 "type TEXT, " +
+                                 "resourceName TEXT, " +
                                  "isBought INTEGER, " +
                                  "isEquiped INTEGER )";
         // User table
@@ -79,11 +79,11 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.delete(TABLE_USER, null, null);
-        db.delete(TABLE_BIRD, null, null);
+//        db.delete(TABLE_USER, null, null);
+//        db.delete(TABLE_BIRD, null, null);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BIRD);
-        onCreate(db);
+//        onCreate(db);
     }
 
     public User getUser() {
