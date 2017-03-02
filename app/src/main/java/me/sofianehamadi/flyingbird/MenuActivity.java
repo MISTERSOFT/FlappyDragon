@@ -77,7 +77,6 @@ public class MenuActivity extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         shopButton.setImageResource(R.drawable.shop_unpressed);
-                        // TODO
                         startActivity(new Intent(MenuActivity.this, ShopActivity.class));
                         break;
 
@@ -97,7 +96,6 @@ public class MenuActivity extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         aboutButton.setImageResource(R.drawable.about_unpressed);
-                        // TODO
                         startActivity(new Intent(MenuActivity.this, AboutActivity.class));
                         break;
 
@@ -117,7 +115,6 @@ public class MenuActivity extends AppCompatActivity {
 
                     case MotionEvent.ACTION_UP:
                         optionsButton.setImageResource(R.drawable.options_unpressed);
-                        // TODO
                         startActivity(new Intent(MenuActivity.this, OptionsActivity.class));
                         break;
 

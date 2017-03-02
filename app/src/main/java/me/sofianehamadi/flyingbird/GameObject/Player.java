@@ -14,6 +14,7 @@ import me.sofianehamadi.flyingbird.views.GameView;
 public class Player extends GameObject {
     private float speedX;
     private float speedY;
+    private boolean dead;
 
     public Player(Context context, GameView view, ArrayList<Bitmap> sprites) {
         super(context, view, sprites);
@@ -21,24 +22,18 @@ public class Player extends GameObject {
         this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
         this.x = view.getWidth() / 6;
         this.speedX = 0;
+        this.dead = false;
+    }
 
-//        this.hitbox = new Rect(
-//                this.gameObjectSprites.get(this.currentSprite).getHeight(),
-//                0,
-//                this.gameObjectSprites.get(this.currentSprite).getWidth(),
-//                0
-//        );
-//        this.hitbox = new Rect(
-//            this.x,
-//            this.y,
-//            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
-//            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight()
-//        );
+    public boolean isDead() {
+        return dead;
     }
 
     public void onTap() {
-        this.speedY = getTabSpeed();
-        this.y += getPosTabIncrease();
+        if (!dead) {
+            this.speedY = getTabSpeed();
+            this.y += getPosTabIncrease();
+        }
     }
 
     private float getPosTabIncrease() {
@@ -52,12 +47,7 @@ public class Player extends GameObject {
     @Override
     public void move() {
         super.changeToNextFrame();
-        Log.i("Player position", "X : " + x + " | Y : " + y);
-
-        // Refresh hitbox position
-//        int top = y;
-//        int bot = top + this.gameObjectSprites.get(this.currentSprite).getHeight();
-//        this.hitbox.set(x, top, this.gameObjectSprites.get(this.currentSprite).getWidth(), bot);
+//        Log.i("Player position", "X : " + x + " | Y : " + y);
 
         this.hitbox.set(
             this.x,
@@ -80,9 +70,10 @@ public class Player extends GameObject {
         }
 
         // player cannot fall over the visible screen
-        if (this.y > 950) {
+        if (this.y > this.view.getHeight() - 100) {
             // player died
             Log.i("Move", "You died");
+            this.dead = true;
         }
         else {
             // move
@@ -94,7 +85,8 @@ public class Player extends GameObject {
             this.y = 0;
         }
 //        Log.i("Move position", "X : " + this.x + " | Y : " + this.y);
-        Log.i("Player hitbox size", ""+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
+//        Log.i("Player hitbox size", ""+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
+
         // manage frames
 /*        if(row != 3){
             // not dead

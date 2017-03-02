@@ -32,6 +32,15 @@ public class Util {
         return b;
     }
 
+    public static Bitmap getAutoScaledBitmapAlpha8(Context context, int bitmapId, int viewHeight, int viewWidth) {
+        Bitmap b = BitmapFactory.decodeResource(context.getResources(), bitmapId, getBitmapFactoryOptions(context));
+        int newWidth = viewWidth / 8;
+        int newHeight = (viewHeight / viewWidth) * newWidth;
+        b = Bitmap.createScaledBitmap(b, newWidth, newHeight, false);
+        b.setDensity(context.getResources().getDisplayMetrics().densityDpi);
+        return b;
+    }
+
     public static float getScaleFactor(Context context){
         return context.getResources().getDisplayMetrics().heightPixels / 1066f;
     }
@@ -41,4 +50,16 @@ public class Util {
 //        Bitmap b = BitmapFactory.decodeResource(context.getResources(), bitmapId, getBitmapFactoryOptions(context));
 //        return new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(b, width, height, false));
 //    }
+
+    public static RatioContainer calculateRadioImage() {
+        RatioContainer rc = new RatioContainer();
+        rc.NEW_HEIGHT = 0;
+
+        return rc;
+    }
+}
+
+class RatioContainer {
+    public Integer NEW_HEIGHT;
+    public Integer NEW_WIDTH;
 }

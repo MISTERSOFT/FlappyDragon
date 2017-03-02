@@ -12,14 +12,19 @@ import me.sofianehamadi.flyingbird.ui.Background;
  * Created by MISTERSOFT on 10/02/2017.
  */
 
-public abstract class AppView extends SurfaceView implements Runnable {
+public abstract class AppView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
 
+    protected Integer surfaceViewHeight;
+    protected Integer surfaceViewWidth;
+    protected Thread viewThread;
     protected View view;
     protected SurfaceHolder holder;
     protected Background background;
+    protected Context context;
 
     public AppView(Context context) {
         super(context);
+        this.context = context;
         this.holder = getHolder();
     }
 
@@ -37,10 +42,6 @@ public abstract class AppView extends SurfaceView implements Runnable {
         }
         holder.unlockCanvasAndPost(canvas);
     }
-
-//    protected void drawCanvas(Canvas canvas) {
-//        background.draw(canvas);
-//    }
 
     protected void drawCanvas(Canvas canvas) {
         this.background.draw(canvas);

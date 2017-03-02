@@ -14,7 +14,6 @@ import java.util.List;
 
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.FontCache;
-import me.sofianehamadi.flyingbird.gameobject.BirdFactory;
 import me.sofianehamadi.flyingbird.models.Bird;
 import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;
 
@@ -56,8 +55,7 @@ public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
 
         Bird item = getItem(position);
         if (item != null) {
-            int resID = this.context.getResources().getIdentifier(birds.get(position).getResourceName(), "drawable", "me.sofianehamadi.flyingbird");
-
+            int resID = context.getResources().getIdentifier(birds.get(position).getResourceName(), "drawable", "me.sofianehamadi.flyingbird");
             viewHolderItemBird.birdImage.setImageResource(resID);
 
             viewHolderItemBird.birdName.setText(birds.get(position).getName());
