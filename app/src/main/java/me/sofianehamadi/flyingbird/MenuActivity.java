@@ -19,6 +19,9 @@ public class MenuActivity extends AppCompatActivity {
     private ImageButton shopButton;
     private ImageButton aboutButton;
     private ImageButton optionsButton;
+    private TextView coins_earn;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +29,17 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         /**
-         * Fetch user information
+         * Load user information
          */
-        User user = Database.getInstance(this).getUser();
+        this.loadUserInfo();
 
 
         /**
          * Change font of the total coin earned
          */
-        TextView coins_earn = (TextView) findViewById(R.id.coins_earn);
-        coins_earn.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
-        coins_earn.setText(user.getMoney().toString());
+        this.coins_earn = (TextView) findViewById(R.id.coins_earn);
+        this.coins_earn.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
+        this.updateCoinEarned();
 
         /**
          * Add listeners on buttons
@@ -124,5 +127,20 @@ public class MenuActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        this.loadUserInfo();
+        this.updateCoinEarned();
+        super.onRestart();
+    }
+
+    private void loadUserInfo() {
+        this.user = Database.getInstance(this).getUser();
+    }
+
+    private void updateCoinEarned() {
+        this.coins_earn.setText(user.getMoney().toString());
     }
 }
