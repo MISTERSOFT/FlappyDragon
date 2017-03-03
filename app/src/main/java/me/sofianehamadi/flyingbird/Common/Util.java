@@ -32,9 +32,9 @@ public class Util {
         return b;
     }
 
-    public static Bitmap getAutoScaledBitmapAlpha8(Context context, int bitmapId, int viewHeight, int viewWidth) {
+    public static Bitmap getAutoScaledBitmapAlpha8(Context context, int bitmapId, int viewHeight, int viewWidth, int scale) {
         Bitmap b = BitmapFactory.decodeResource(context.getResources(), bitmapId, getBitmapFactoryOptions(context));
-        int newWidth = viewWidth / 8;
+        int newWidth = viewWidth / scale;
         int newHeight = (viewHeight / viewWidth) * newWidth;
         b = Bitmap.createScaledBitmap(b, newWidth, newHeight, false);
         b.setDensity(context.getResources().getDisplayMetrics().densityDpi);

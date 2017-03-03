@@ -36,7 +36,7 @@ public class Database extends SQLiteOpenHelper {
 
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        context.deleteDatabase(DATABASE_NAME);
+//        context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -79,11 +79,8 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.delete(TABLE_USER, null, null);
-//        db.delete(TABLE_BIRD, null, null);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BIRD);
-//        onCreate(db);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BIRD);
     }
 
     public User getUser() {
@@ -109,7 +106,7 @@ public class Database extends SQLiteOpenHelper {
         values.put("money", user.getMoney());
 
         db.update(TABLE_USER, values, "id = " + user.getId(), null);
-
+//        db.rawQuery("UPDATE " + TABLE_USER + " SET money = " + user.getMoney()  + " WHERE id = " + user.getId(), null);
         db.close();
     }
 

@@ -37,7 +37,6 @@ public class GameView extends AppView {
     private int offsetBackgroundOneX;
     private int offsetBackgroundTwoX;
 
-//    private SurfaceHolder holder;
     private boolean paused = true;
     private TimerTask timerTask;
     private Timer timer = new Timer();
@@ -61,36 +60,6 @@ public class GameView extends AppView {
          * Init GameObjects and GUI elements
          */
         userInfo = Database.getInstance(context).getUser();
-        // Init player
-//        List<Integer> sprites = (List<Integer>) BirdFactory.getInstance(context).getBirdSprites(BirdTypeEnum.ANGRY);
-//        ArrayList<Bitmap> playerSprites = new ArrayList<>();
-//        // Get all resources with sprites ID
-//        for (Integer sprite : sprites) {
-//            playerSprites.add(Util.getScaledBitmapAlpha8(context, sprite, SCALE_PLAYER_SIZE_HEIGHT, SCALE_PLAYER_SIZE_WIDTH));
-//        }
-//
-////        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame1));
-////        playerSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.frame2));
-//        this.player = new Player(context, this, playerSprites);
-
-//        // Init coinscore
-//        this.coinScore = new CoinScore(context, this, R.drawable.coin1, 20, 20);
-//
-//        // Init coins
-//        this.coins = new ArrayList<>();
-//        ArrayList<Bitmap> coinSprites = new ArrayList<>();
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin1, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin2, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin3, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin4, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin5, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin6, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin7, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        coinSprites.add(Util.getScaledBitmapAlpha8(context, R.drawable.coin8, Coin.COIN_SIZE, Coin.COIN_SIZE));
-//        for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
-//            Coin c = new Coin(context, this, coinSprites);
-//            this.coins.add(c);
-//        }
 
         /**
          * Init GameView backgrounds
@@ -109,8 +78,8 @@ public class GameView extends AppView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         performClick();
-        if(event.getAction() == MotionEvent.ACTION_DOWN){
-            if(paused) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(this.paused && !this.player.isDead()) {
                 resume();
             } else {
 //                Log.i("PLAYER", "PLAYER TAPPED");
@@ -121,7 +90,7 @@ public class GameView extends AppView {
     }
 
     private void resume() {
-        paused = false;
+        this.paused = false;
         startTimer();
     }
 
@@ -152,6 +121,16 @@ public class GameView extends AppView {
         };
     }
 
+    private void pause() {
+        this.paused = true;
+        this.stopTimer();
+    }
+
+    private void gameOver() {
+        userInfo.sum(this.coinScore.getTotalCoins());
+        Database.getInstance(this.context).updateUser(userInfo);
+    }
+
     @Override
     public void run() {
         player.move();
@@ -161,10 +140,8 @@ public class GameView extends AppView {
     @Override
     protected void draw() {
         super.draw();
-        if (!this.player.isDead()) {
-            this.offsetBackgroundOneX += BACKGROUND_PROGRESS_PER_TICK;
-            this.offsetBackgroundTwoX += BACKGROUND_PROGRESS_PER_TICK;
-        }
+        this.offsetBackgroundOneX += BACKGROUND_PROGRESS_PER_TICK;
+        this.offsetBackgroundTwoX += BACKGROUND_PROGRESS_PER_TICK;
     }
 
     @Override
@@ -205,12 +182,19 @@ public class GameView extends AppView {
             coinScore.draw(canvas);
         }
         else {
-            this.paused = true;
-            this.stopTimer();
+            pause();
         }
 
         if (this.paused) {
-            canvas.drawText("PAUSED", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
+            // Game Over
+            if (this.player.isDead()) {
+                canvas.drawText("Game Over", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
+                gameOver();
+            }
+            else {
+                // Just pause the game
+                canvas.drawText("Pause", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
+            }
         }
     }
 
@@ -233,9 +217,7 @@ public class GameView extends AppView {
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -258,7 +240,7 @@ public class GameView extends AppView {
         ArrayList<Bitmap> playerSprites = new ArrayList<>();
         // Get all resources with sprites ID
         for (Integer sprite : sprites) {
-            playerSprites.add(Util.getAutoScaledBitmapAlpha8(context, sprite, this.surfaceViewHeight, this.surfaceViewWidth));
+            playerSprites.add(Util.getAutoScaledBitmapAlpha8(context, sprite, this.surfaceViewHeight, this.surfaceViewWidth, 8));
         }
         this.player = new Player(context, this, playerSprites);
 
@@ -266,7 +248,7 @@ public class GameView extends AppView {
          * Init coin
          */
         // Init coinscore
-        this.coinScore = new CoinScore(this.context, this, R.drawable.coin1, 20, 20);
+        this.coinScore = new CoinScore(this.context, this, R.drawable.coin7, 20, 20);
         // Init coins
         this.coins = new ArrayList<>();
         ArrayList<Bitmap> coinSprites = new ArrayList<>();

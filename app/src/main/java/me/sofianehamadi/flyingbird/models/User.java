@@ -30,4 +30,8 @@ public class User {
     }
 
     public User() {}
+
+    public void sum(Integer _money) {
+        money += _money;
+    }
 }
