@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="activityBackgroundColor">#CDC8C8</color>
+    <color name="buttonGameIdle">#ffcc00</color>
+    <color name="buttonGamePressed">#efbf00</color>
+    <color name="buttonGameFocused">#efbf00</color>
+    <color name="buttonGameUnder">#ff9900</color>
+    <color name="alertRestartBackgroundColor">#cdc8c8</color>
 </resources>

@@ -1,18 +1,28 @@
 package me.sofianehamadi.flyingbird.views;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import me.sofianehamadi.flyingbird.GameActivity;
+import me.sofianehamadi.flyingbird.MenuActivity;
+import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.gameobject.BirdFactory;
 import me.sofianehamadi.flyingbird.models.BirdTypeEnum;
@@ -31,6 +41,7 @@ public class GameView extends AppView {
     private static final int GENERATE_COINS_NUMBER = 1;
 
     private static ArrayList<Bitmap> playerSprites; // player sprites
+    private static ArrayList<Bitmap> coinSprites; // coin sprites
 
     private int DEFAULT_OFFSET_BACKGROUND_ONE;
     private int DEFAULT_OFFSET_BACKGROUND_TWO;
@@ -38,7 +49,7 @@ public class GameView extends AppView {
     private int offsetBackgroundOneX;
     private int offsetBackgroundTwoX;
 
-    private boolean paused = true;
+    private boolean paused;
     private TimerTask timerTask;
     private Timer timer = new Timer();
     private static ArrayList<Background> backgrounds;
@@ -58,22 +69,9 @@ public class GameView extends AppView {
         getHolder().addCallback(this);
 
         /**
-         * Init GameObjects and GUI elements
+         * Get User
          */
         userInfo = Database.getInstance(context).getUser();
-
-        /**
-         * Init GameView backgrounds
-         */
-//        this.backgrounds = new ArrayList<>();
-//        this.backgrounds.add(new Background(context, this, R.drawable.game_background));
-//        this.backgrounds.add(new Background(context, this, R.drawable.game_background_revert));
-//
-//        this.BACKGROUND_WIDTH = this.backgrounds.get(0).getBackground().getWidth();
-//        this.DEFAULT_OFFSET_BACKGROUND_ONE  = 0;
-//        this.DEFAULT_OFFSET_BACKGROUND_TWO = -BACKGROUND_WIDTH;
-//        this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
-//        this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
     }
 
     @Override
@@ -130,6 +128,42 @@ public class GameView extends AppView {
     private void gameOver() {
         userInfo.sum(this.coinScore.getTotalCoins());
         Database.getInstance(this.context).updateUser(userInfo);
+        // Show dialog
+        ((GameActivity)this.context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                View restartDialogView = LayoutInflater.from(context).inflate(R.layout.restart_game_dialog, null);
+                final AlertDialog restartDialog = new AlertDialog.Builder(context).create();
+                restartDialog.setCancelable(false);
+
+                TextView restartText = (TextView) restartDialogView.findViewById(R.id.restart_text);
+                restartText.setTypeface(FontCache.getTypeface(context, FontCache.PixelOperatorMono8));
+
+                Button yesRestartBtn = (Button) restartDialogView.findViewById(R.id.yes_restart);
+                yesRestartBtn.setTypeface(FontCache.getTypeface(context, FontCache.PixelOperatorMono8));
+                yesRestartBtn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startGame();
+                        resume();
+                        restartDialog.dismiss();
+                    }
+                });
+
+                Button noRestartBtn = (Button) restartDialogView.findViewById(R.id.no_restart);
+                noRestartBtn.setTypeface(FontCache.getTypeface(context, FontCache.PixelOperatorMono8));
+                noRestartBtn.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        stopGame();
+                        context.startActivity(new Intent(context, MenuActivity.class));
+                    }
+                });
+
+                restartDialog.setView(restartDialogView);
+                restartDialog.show();
+            }
+        });
     }
 
     @Override
@@ -222,6 +256,10 @@ public class GameView extends AppView {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        this.stopGame();
+    }
+
+    private void stopGame() {
         boolean retry = true;
         while (retry) {
             try {
@@ -237,6 +275,8 @@ public class GameView extends AppView {
      * Init game components
      */
     private void startGame() {
+        this.paused = true;
+
         /**
          * Init player
          */
@@ -258,7 +298,7 @@ public class GameView extends AppView {
         // Init coins
         if (coins == null) {
             coins = new ArrayList<>();
-            ArrayList<Bitmap> coinSprites = new ArrayList<>();
+            coinSprites = new ArrayList<>();
             coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin1, Coin.COIN_SIZE, Coin.COIN_SIZE));
             coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin2, Coin.COIN_SIZE, Coin.COIN_SIZE));
             coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin3, Coin.COIN_SIZE, Coin.COIN_SIZE));
@@ -267,12 +307,12 @@ public class GameView extends AppView {
             coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin6, Coin.COIN_SIZE, Coin.COIN_SIZE));
             coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin7, Coin.COIN_SIZE, Coin.COIN_SIZE));
             coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin8, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
-                Coin c = new Coin(this.context, this, coinSprites);
-                coins.add(c);
-            }
         }
-
+        coins.clear();
+        for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
+            Coin c = new Coin(this.context, this, coinSprites);
+            coins.add(c);
+        }
         /**
          * Init GameView backgrounds
          */

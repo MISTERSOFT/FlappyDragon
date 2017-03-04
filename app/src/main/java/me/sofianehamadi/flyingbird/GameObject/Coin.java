@@ -28,11 +28,6 @@ public class Coin extends GameObject {
         super(context, view, sprites);
         rowsHeight = new int[0];
         random = new Random();
-//        this.hitbox = new Rect(
-//            this.x,
-//            this.y,
-//            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
-//            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight());
     }
 
     @Override
@@ -48,7 +43,7 @@ public class Coin extends GameObject {
 
     @Override
     public void move() {
-        Log.i("Coin position", "X : " + x + " | Y : " + y);
+//        Log.i("Coin position", "X : " + x + " | Y : " + y);
 
         this.x -= SPEED;
 
