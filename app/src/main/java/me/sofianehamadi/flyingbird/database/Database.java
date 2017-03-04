@@ -106,7 +106,6 @@ public class Database extends SQLiteOpenHelper {
         values.put("money", user.getMoney());
 
         db.update(TABLE_USER, values, "id = " + user.getId(), null);
-//        db.rawQuery("UPDATE " + TABLE_USER + " SET money = " + user.getMoney()  + " WHERE id = " + user.getId(), null);
         db.close();
     }
 

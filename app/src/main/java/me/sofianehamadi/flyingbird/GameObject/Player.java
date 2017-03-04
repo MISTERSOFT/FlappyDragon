@@ -72,7 +72,7 @@ public class Player extends GameObject {
         // player cannot fall over the visible screen
         if (this.y > this.view.getHeight() - 100) {
             // player died
-            Log.i("Move", "You died");
+//            Log.i("Move", "You died");
             this.dead = true;
         }
         else {
@@ -119,9 +119,9 @@ public class Player extends GameObject {
         canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), x, y , null);
 
         // Debug - Show player hitbox
-        Paint p = new Paint();
-        p.setColor(Color.argb(125, 50, 50, 50));
-        canvas.drawRect(this.hitbox, p);
+//        Paint p = new Paint();
+//        p.setColor(Color.argb(125, 50, 50, 50));
+//        canvas.drawRect(this.hitbox, p);
 
         this.nextSprite();
     }
