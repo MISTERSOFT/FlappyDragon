@@ -1,13 +1,11 @@
 package me.sofianehamadi.flyingbird.views;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -25,6 +23,7 @@ import me.sofianehamadi.flyingbird.MenuActivity;
 import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.gameobject.BirdFactory;
+import me.sofianehamadi.flyingbird.models.Bird;
 import me.sofianehamadi.flyingbird.models.BirdTypeEnum;
 import me.sofianehamadi.flyingbird.models.User;
 import me.sofianehamadi.flyingbird.ui.Background;
@@ -59,6 +58,7 @@ public class GameView extends AppView {
     private static ArrayList<Coin> coins;
 
     private static User userInfo;
+    private static Bird equipedBird;
 
     public GameView(Context context) {
         super(context);
@@ -72,6 +72,10 @@ public class GameView extends AppView {
          * Get User
          */
         userInfo = Database.getInstance(context).getUser();
+        /**
+         * Get equiped bird
+         */
+        equipedBird = Database.getInstance(context).getEquipedBird();
     }
 
     @Override
@@ -281,7 +285,7 @@ public class GameView extends AppView {
          * Init player
          */
         if (playerSprites == null) {
-            List<Integer> sprites = (List<Integer>) BirdFactory.getInstance(context).getBirdSprites(BirdTypeEnum.ANGRY);
+            List<Integer> sprites = (List<Integer>) BirdFactory.getInstance(context).getBirdSprites(equipedBird.getBirdType());
             playerSprites = new ArrayList<>();
             // Get all resources with sprites ID
             for (Integer sprite : sprites) {

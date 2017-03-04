@@ -2,6 +2,7 @@ package me.sofianehamadi.flyingbird.models.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +68,20 @@ public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
             viewHolderItemBird.birdPrice.setTypeface(FontCache.getTypeface(context, FontCache.PixelOperatorMono8));
 
             viewHolderItemBird.buyBird.setEnabled(!birds.get(position).isBought());
+            if (birds.get(position).isBought()) {
+                viewHolderItemBird.buyBird.setText(R.string.bought);
+            }
+            else {
+                viewHolderItemBird.buyBird.setText(R.string.buy);
+            }
 
             viewHolderItemBird.equipBird.setEnabled(!birds.get(position).isEquiped());
+            if (birds.get(position).isEquiped()) {
+                viewHolderItemBird.equipBird.setText(R.string.equiped);
+            }
+            else {
+                viewHolderItemBird.equipBird.setText(R.string.equip);
+            }
         }
 
         return convertView;

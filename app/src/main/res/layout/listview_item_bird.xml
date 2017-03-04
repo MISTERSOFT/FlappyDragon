@@ -52,13 +52,16 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:id="@+id/shopBuyButton"
-                android:text="Buy" />
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_buy"
+                android:text="@string/buy" />
 
             <Button
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:id="@+id/shopEquipButton"
-                android:text="Equip" />
+                android:background="@drawable/button_game"
+                android:text="@string/equip" />
 
         </TableRow>
     </TableLayout>

@@ -36,7 +36,7 @@ public class Database extends SQLiteOpenHelper {
 
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-//        context.deleteDatabase(DATABASE_NAME);
+        context.deleteDatabase(DATABASE_NAME);
     }
 
     @Override
@@ -69,12 +69,12 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Red Fly',      500, '" + BirdTypeEnum.RED         .name() + "', 'bird_red_idle_1',          0, 0)");
         db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Rocky',        125, '" + BirdTypeEnum.ROCK        .name() + "', 'bird_rock_idle_1',         0, 0)");
         db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Baka',         300, '" + BirdTypeEnum.STUPID      .name() + "', 'bird_stupid_idle_1',       0, 0)");
-        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Tiny',         100, '" + BirdTypeEnum.TINY        .name() + "', 'bird_tiny_idle_1',         0, 0)");
+        db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Tiny',         100, '" + BirdTypeEnum.TINY        .name() + "', 'bird_tiny_idle_1',         1, 1)"); // Default bird
         db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Whaly',        200, '" + BirdTypeEnum.WEIRD       .name() + "', 'bird_weird_idle_1',        0, 0)");
         db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Yellow Boy',   200, '" + BirdTypeEnum.YELLOW      .name() + "', 'bird_yellow_idle_1',       0, 0)");
 
         // Feed user table
-        db.execSQL("INSERT INTO " + TABLE_USER + " VALUES(1, 0)");
+        db.execSQL("INSERT INTO " + TABLE_USER + " VALUES(1, 1000)");
     }
 
     @Override
@@ -106,6 +106,17 @@ public class Database extends SQLiteOpenHelper {
         values.put("money", user.getMoney());
 
         db.update(TABLE_USER, values, "id = " + user.getId(), null);
+        db.close();
+    }
+
+    public void updateBird(Bird bird) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("isBought", bird.isBought());
+        values.put("isEquiped", bird.isEquiped());
+
+        db.update(TABLE_BIRD, values, "id = " + bird.getId(), null);
         db.close();
     }
 
