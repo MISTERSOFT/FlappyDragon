@@ -50,16 +50,4 @@ public class Util {
 //        Bitmap b = BitmapFactory.decodeResource(context.getResources(), bitmapId, getBitmapFactoryOptions(context));
 //        return new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(b, width, height, false));
 //    }
-
-    public static RatioContainer calculateRadioImage() {
-        RatioContainer rc = new RatioContainer();
-        rc.NEW_HEIGHT = 0;
-
-        return rc;
-    }
-}
-
-class RatioContainer {
-    public Integer NEW_HEIGHT;
-    public Integer NEW_WIDTH;
 }

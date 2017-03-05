@@ -3,11 +3,15 @@ package me.sofianehamadi.flyingbird.gameobject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.util.Log;
+import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import me.sofianehamadi.flyingbird.R;
+import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 /**
@@ -30,6 +34,7 @@ public class Coin extends GameObject {
         random = new Random();
         // start position - aways from the screen
         this.x =- 200;
+        this.audio = new AudioGame(context, R.raw.pickup_coin_sound);
     }
 
     @Override
@@ -79,6 +84,10 @@ public class Coin extends GameObject {
         }
 
         return rowsHeight;
+    }
+
+    public void playSound() {
+        this.audio.play();
     }
 
 //    private int[] generateColumns(int canvasWidth) {

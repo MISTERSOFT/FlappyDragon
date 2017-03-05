@@ -159,6 +159,7 @@ public class GameView extends AppView {
                     @Override
                     public void onClick(View v) {
                         stopGame();
+                        restartDialog.dismiss();
                         context.startActivity(new Intent(context, MenuActivity.class));
                     }
                 });

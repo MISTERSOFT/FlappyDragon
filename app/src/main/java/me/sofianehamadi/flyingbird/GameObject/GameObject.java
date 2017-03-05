@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import java.util.ArrayList;
 
+import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 /**
@@ -15,8 +16,8 @@ import me.sofianehamadi.flyingbird.views.GameView;
 
 public abstract class GameObject {
 
-    protected final byte frameTime;
-    protected int frameTimeCounter;
+    private final byte frameTime;
+    private int frameTimeCounter;
 
     protected int x;
     protected int y;
@@ -26,6 +27,8 @@ public abstract class GameObject {
 
     protected GameView view;
     protected Context context;
+
+    protected AudioGame audio;
 
     public GameObject(Context context, GameView view, ArrayList<Bitmap> sprites) {
         this.context = context;

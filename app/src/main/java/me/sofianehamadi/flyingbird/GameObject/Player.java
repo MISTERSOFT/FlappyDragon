@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import me.sofianehamadi.flyingbird.R;
+import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 public class Player extends GameObject {
@@ -23,6 +25,7 @@ public class Player extends GameObject {
         this.x = view.getWidth() / 6;
         this.speedX = 0;
         this.dead = false;
+//        this.audio = new AudioGame(context, R.raw.jump_sound);
     }
 
     public boolean isDead() {
@@ -31,6 +34,7 @@ public class Player extends GameObject {
 
     public void onTap() {
         if (!dead) {
+//            this.audio.play();
             this.speedY = getTabSpeed();
             this.y += getPosTabIncrease();
         }
@@ -112,6 +116,7 @@ public class Player extends GameObject {
     public void pickUpCoin(Coin coin, Canvas canvas) {
         // give a new position to the coin outside of the screen
         coin.generateRandomPosition(canvas);
+        coin.playSound();
     }
 
     @Override

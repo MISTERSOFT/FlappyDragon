@@ -2,6 +2,7 @@ package me.sofianehamadi.flyingbird.models.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.ShopActivity;
+import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.models.Bird;
@@ -26,13 +28,16 @@ import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;
 public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
     private final Context context;
     private List<Bird> birds;
+    private AudioGame audio;
 
     public ListViewItemBirdAdapter(Context context, int resource, List<Bird> objects) {
         super(context, resource, objects);
         this.context = context;
         this.birds = objects;
+        this.audio = new AudioGame(context, R.raw.bought_sound);
     }
 
+    @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolderItemBird viewHolderItemBird;
@@ -80,6 +85,7 @@ public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
                 public void onClick(View v) {
                     // If user have enough money
                     if (((ShopActivity) context).user.getMoney() - birds.get(position).getPrice() > 0) {
+                        audio.play();
                         // update bird
                         Bird bird = birds.get(position);
                         bird.setBought(true);
