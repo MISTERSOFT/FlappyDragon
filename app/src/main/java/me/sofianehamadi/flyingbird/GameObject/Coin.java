@@ -28,6 +28,8 @@ public class Coin extends GameObject {
         super(context, view, sprites);
         rowsHeight = new int[0];
         random = new Random();
+        // start position - aways from the screen
+        this.x =- 200;
     }
 
     @Override

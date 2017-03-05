@@ -32,8 +32,6 @@ public class ShopActivity extends AppCompatActivity {
 
         tvCoins = (TextView) findViewById(R.id.shop_coins_earn);
         tvCoins.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
-//        user = Database.getInstance(this).getUser();
-//        tvCoins.setText(user.getMoney().toString());
         updateMoney();
 
         /**
@@ -47,9 +45,6 @@ public class ShopActivity extends AppCompatActivity {
 
     public void updateMoney() {
         user = Database.getInstance(this).getUser();
-//
-//        tvCoins = (TextView) findViewById(R.id.shop_coins_earn);
-//        tvCoins.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
         tvCoins.setText(user.getMoney().toString());
     }
 }

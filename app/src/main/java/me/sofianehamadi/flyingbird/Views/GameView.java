@@ -24,7 +24,6 @@ import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.gameobject.BirdFactory;
 import me.sofianehamadi.flyingbird.models.Bird;
-import me.sofianehamadi.flyingbird.models.BirdTypeEnum;
 import me.sofianehamadi.flyingbird.models.User;
 import me.sofianehamadi.flyingbird.ui.Background;
 import me.sofianehamadi.flyingbird.gui.CoinScore;
