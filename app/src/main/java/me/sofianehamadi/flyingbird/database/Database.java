@@ -36,6 +36,8 @@ public class Database extends SQLiteOpenHelper {
 
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        // TODO - REMOVE
         context.deleteDatabase(DATABASE_NAME);
     }
 
@@ -109,10 +111,18 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateBird(Bird bird) {
+    public void updateBird(Bird bird, boolean resetEquiped) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
+
+        // reset equiped value
+        if (resetEquiped) {
+            values.put("isEquiped", 0);
+            db.update(TABLE_BIRD, values, "isEquiped = 1", null);
+            values.clear();
+        }
+
+        // Update bird
         values.put("isBought", bird.isBought());
         values.put("isEquiped", bird.isEquiped());
 

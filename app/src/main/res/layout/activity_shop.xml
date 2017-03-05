@@ -6,19 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activityBackgroundColor"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
     tools:context="me.sofianehamadi.flyingbird.ShopActivity">
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/coin2"
-        android:id="@+id/shopTotalCoin"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp" />
 
     <TextView
         android:text="0"
@@ -26,27 +14,38 @@
         android:layout_height="wrap_content"
         android:id="@+id/shop_coins_earn"
         android:fontFamily="sans-serif"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="33dp"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:layout_alignBottom="@+id/shopTotalCoin"
         android:layout_alignEnd="@+id/shopTotalCoin" />
 
     <TextView
-        android:text="Shop"
+        android:text="@string/shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewShopTitle"
         android:textSize="36sp"
         android:textColor="@android:color/black"
         android:layout_alignTop="@+id/shopTotalCoin"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginStart="10dp" />
 
     <ListView
         android:id="@+id/listViewShop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewShopTitle"
-        android:layout_marginTop="20dp"/>
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:srcCompat="@drawable/coin2"
+        android:id="@+id/shopTotalCoin"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

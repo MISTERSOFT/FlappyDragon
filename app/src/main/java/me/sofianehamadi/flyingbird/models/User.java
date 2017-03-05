@@ -34,4 +34,8 @@ public class User {
     public void sum(Integer _money) {
         money += _money;
     }
+
+    public void minus(Integer _money) {
+        money -= _money;
+    }
 }

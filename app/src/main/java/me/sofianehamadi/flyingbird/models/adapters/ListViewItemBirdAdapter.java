@@ -2,7 +2,6 @@ package me.sofianehamadi.flyingbird.models.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.sofianehamadi.flyingbird.R;
+import me.sofianehamadi.flyingbird.ShopActivity;
 import me.sofianehamadi.flyingbird.common.FontCache;
+import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.models.Bird;
 import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;
 
@@ -24,7 +25,7 @@ import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;
 
 public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
     private final Context context;
-    private final List<Bird> birds;
+    private List<Bird> birds;
 
     public ListViewItemBirdAdapter(Context context, int resource, List<Bird> objects) {
         super(context, resource, objects);
@@ -33,8 +34,8 @@ public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderItemBird viewHolderItemBird;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolderItemBird viewHolderItemBird;
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) this.context).getLayoutInflater();
             convertView = inflater.inflate(R.layout.listview_item_bird, parent, false);
@@ -74,14 +75,50 @@ public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
             else {
                 viewHolderItemBird.buyBird.setText(R.string.buy);
             }
+            viewHolderItemBird.buyBird.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // If user have enough money
+                    if (((ShopActivity) context).user.getMoney() - birds.get(position).getPrice() > 0) {
+                        // update bird
+                        Bird bird = birds.get(position);
+                        bird.setBought(true);
+                        Database.getInstance(context).updateBird(bird, false);
+                        birds = Database.getInstance(context).getAllBirds();
 
-            viewHolderItemBird.equipBird.setEnabled(!birds.get(position).isEquiped());
+                        // update user money
+                        ((ShopActivity) context).user.minus(birds.get(position).getPrice());
+                        Database.getInstance(context).updateUser(((ShopActivity) context).user);
+                        ((ShopActivity) context).updateMoney();
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+
+            if (!birds.get(position).isBought()) {
+                viewHolderItemBird.equipBird.setEnabled(false);
+            }
+            else {
+                viewHolderItemBird.equipBird.setEnabled(!birds.get(position).isEquiped());
+            }
+
             if (birds.get(position).isEquiped()) {
                 viewHolderItemBird.equipBird.setText(R.string.equiped);
             }
             else {
                 viewHolderItemBird.equipBird.setText(R.string.equip);
             }
+
+            viewHolderItemBird.equipBird.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bird bird = birds.get(position);
+                    bird.setEquiped(true);
+                    Database.getInstance(context).updateBird(bird, true);
+                    birds = Database.getInstance(context).getAllBirds();
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         return convertView;

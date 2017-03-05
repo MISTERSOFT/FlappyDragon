@@ -15,7 +15,10 @@ import me.sofianehamadi.flyingbird.models.adapters.ListViewItemBirdAdapter;
 
 public class ShopActivity extends AppCompatActivity {
 
-    private static User user;
+    private static TextView tvTitle;
+    private static TextView tvCoins;
+
+    public User user;
     private static ArrayList<Bird> birds;
 
     @Override
@@ -23,21 +26,30 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        user = Database.getInstance(this).getUser();
-        birds = Database.getInstance(this).getAllBirds();
 
-        TextView tvTitle = (TextView) findViewById(R.id.textViewShopTitle);
+        tvTitle = (TextView) findViewById(R.id.textViewShopTitle);
         tvTitle.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
 
-        TextView tvCoins = (TextView) findViewById(R.id.shop_coins_earn);
+        tvCoins = (TextView) findViewById(R.id.shop_coins_earn);
         tvCoins.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
-        tvCoins.setText(user.getMoney().toString());
+//        user = Database.getInstance(this).getUser();
+//        tvCoins.setText(user.getMoney().toString());
+        updateMoney();
 
         /**
          * Init listView
          */
+        birds = Database.getInstance(this).getAllBirds();
         ListView listViewBirds = (ListView) findViewById(R.id.listViewShop);
         ListViewItemBirdAdapter birdAdapter = new ListViewItemBirdAdapter(this, R.layout.listview_item_bird, birds);
         listViewBirds.setAdapter(birdAdapter);
+    }
+
+    public void updateMoney() {
+        user = Database.getInstance(this).getUser();
+//
+//        tvCoins = (TextView) findViewById(R.id.shop_coins_earn);
+//        tvCoins.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
+        tvCoins.setText(user.getMoney().toString());
     }
 }
