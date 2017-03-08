@@ -170,99 +170,6 @@ public class GameView extends AppView {
         });
     }
 
-    @Override
-    public void run() {
-        player.move();
-        this.draw();
-    }
-
-    @Override
-    protected void draw() {
-        super.draw();
-        this.offsetBackgroundOneX += BACKGROUND_PROGRESS_PER_TICK;
-        this.offsetBackgroundTwoX += BACKGROUND_PROGRESS_PER_TICK;
-    }
-
-    @Override
-    protected void drawCanvas(Canvas canvas) {
-        // Continu to draw if the player is not dead
-        if (!this.player.isDead()) {
-            if (this.offsetBackgroundOneX < BACKGROUND_WIDTH) {
-                backgrounds.get(0).draw(canvas, this.offsetBackgroundOneX);
-            }
-            // the player will begin to see a black background, so we draw the next background
-            // that is fixed on the right side of the previous background
-            if (this.offsetBackgroundTwoX < BACKGROUND_WIDTH) {
-                backgrounds.get(1).draw(canvas, this.offsetBackgroundTwoX);
-            }
-//        Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
-            // reset position of the first background
-            // Don't know why a little piece of screen still bugged with all good values
-            // so I add 10px to the new position of each background and this has solved the problem
-            if (this.offsetBackgroundOneX >= BACKGROUND_WIDTH) {
-                this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_TWO + 10;
-            }
-            if (this.offsetBackgroundTwoX >= BACKGROUND_WIDTH) {
-                this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO + 10;
-            }
-
-            player.draw(canvas);
-            for (Coin c : coins) {
-                if (c.getX() < 0) {
-                    c.generateRandomPosition(canvas);
-                }
-                if (player.getHitbox().intersect(c.getHitbox())) {
-                    this.player.pickUpCoin(c, canvas);
-                    this.coinScore.add(1);
-                }
-                c.move();
-                c.draw(canvas);
-            }
-            coinScore.draw(canvas);
-        }
-        else {
-            pause();
-        }
-
-        if (this.paused) {
-            // Game Over
-            if (this.player.isDead()) {
-                canvas.drawText("Game Over", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
-                gameOver();
-            }
-            else {
-                // Just pause the game
-                canvas.drawText("Pause", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
-            }
-        }
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        this.surfaceViewHeight = getHeight();
-        this.surfaceViewWidth = getWidth();
-        startGame();
-
-        /**
-         * Start the game in a new thread
-         */
-        this.viewThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GameView.this.run();
-            }
-        });
-        this.viewThread.start();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        this.stopGame();
-    }
-
     private void stopGame() {
         boolean retry = true;
         while (retry) {
@@ -330,5 +237,98 @@ public class GameView extends AppView {
         DEFAULT_OFFSET_BACKGROUND_TWO = -BACKGROUND_WIDTH;
         this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
         this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
+    }
+
+    @Override
+    public void run() {
+        player.move();
+        this.draw();
+    }
+
+    @Override
+    protected void draw() {
+        super.draw();
+        this.offsetBackgroundOneX += BACKGROUND_PROGRESS_PER_TICK;
+        this.offsetBackgroundTwoX += BACKGROUND_PROGRESS_PER_TICK;
+    }
+
+    @Override
+    protected void drawCanvas(Canvas canvas) {
+        // Continu to draw if the player is not dead
+        if (!this.player.isDead()) {
+            if (this.offsetBackgroundOneX < BACKGROUND_WIDTH) {
+                backgrounds.get(0).draw(canvas, this.offsetBackgroundOneX);
+            }
+            // the player will begin to see a black background, so we draw the next background
+            // that is fixed on the right side of the previous background
+            if (this.offsetBackgroundTwoX < BACKGROUND_WIDTH) {
+                backgrounds.get(1).draw(canvas, this.offsetBackgroundTwoX);
+            }
+//        Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
+            // reset position of the first background
+            // Don't know why a little piece of screen still bugged with all good values
+            // so I add 10px to the new position of each background and this has solved the problem
+            if (this.offsetBackgroundOneX >= BACKGROUND_WIDTH) {
+                this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_TWO + 10;
+            }
+            if (this.offsetBackgroundTwoX >= BACKGROUND_WIDTH) {
+                this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO + 10;
+            }
+
+            player.draw(canvas);
+            for (Coin c : coins) {
+                if (c.getX() < 0) {
+                    c.generateRandomPosition(canvas);
+                }
+                if (player.getHitbox().intersect(c.getHitbox())) {
+                    this.player.pickUpCoin(c, canvas);
+                    this.coinScore.add(1);
+                }
+                c.move();
+                c.draw(canvas);
+            }
+            coinScore.draw(canvas);
+        }
+        else {
+            pause();
+        }
+
+        if (this.paused) {
+            // Game Over
+            if (this.player.isDead()) {
+//                canvas.drawText("Game Over", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
+                gameOver();
+            }
+            else {
+                // Just pause the game
+                canvas.drawText("Pause", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
+            }
+        }
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        this.surfaceViewHeight = getHeight();
+        this.surfaceViewWidth = getWidth();
+        startGame();
+
+        /**
+         * Start the game in a new thread
+         */
+        this.viewThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GameView.this.run();
+            }
+        });
+        this.viewThread.start();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        this.stopGame();
     }
 }
