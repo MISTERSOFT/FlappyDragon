@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import me.sofianehamadi.flyingbird.R;
@@ -28,7 +29,7 @@ public class Coin extends GameObject {
     private static int[] rowsHeight;
     private static Random random;
 
-    public Coin(Context context, GameView view, ArrayList<Bitmap> sprites) {
+    public Coin(Context context, GameView view, List<Bitmap> sprites) {
         super(context, view, sprites);
         rowsHeight = new int[0];
         random = new Random();

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.views.GameView;
@@ -21,7 +22,7 @@ public abstract class GameObject {
 
     protected int x;
     protected int y;
-    protected ArrayList<Bitmap> gameObjectSprites;
+    protected List<Bitmap> gameObjectSprites;
     protected int currentSprite;
     protected Rect hitbox;
 
@@ -30,7 +31,7 @@ public abstract class GameObject {
 
     protected AudioGame audio;
 
-    public GameObject(Context context, GameView view, ArrayList<Bitmap> sprites) {
+    public GameObject(Context context, GameView view, List<Bitmap> sprites) {
         this.context = context;
         this.view = view;
         this.gameObjectSprites = sprites;
@@ -49,28 +50,9 @@ public abstract class GameObject {
         return hitbox;
     }
 
-    // TODO - Remove
-//    public void setHitbox(Rect hitbox) {
-//        this.hitbox = hitbox;
-//    }
-
     public int getX() {
         return x;
     }
-
-    // TODO - Remove
-//    public void setX(int x) {
-//        this.x = x;
-//    }
-
-    // TODO - Remove
-//    public int getY() {
-//        return y;
-//    }
-    // TODO - Remove
-//    public void setY(int y) {
-//        this.y = y;
-//    }
 
     protected void changeToNextFrame() {
         this.frameTimeCounter++;

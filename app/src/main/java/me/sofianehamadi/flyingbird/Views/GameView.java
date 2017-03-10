@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,7 +24,8 @@ import me.sofianehamadi.flyingbird.GameActivity;
 import me.sofianehamadi.flyingbird.MenuActivity;
 import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.database.Database;
-import me.sofianehamadi.flyingbird.gameobject.BirdFactory;
+import me.sofianehamadi.flyingbird.gameobject.Enemy;
+import me.sofianehamadi.flyingbird.gameobject.SpriteFactory;
 import me.sofianehamadi.flyingbird.models.Bird;
 import me.sofianehamadi.flyingbird.models.User;
 import me.sofianehamadi.flyingbird.ui.Background;
@@ -37,9 +40,11 @@ public class GameView extends AppView {
     public static final long UPDATE_INTERVAL = 50; // = 20 FPS
     private static final int BACKGROUND_PROGRESS_PER_TICK = 10;
     private static final int GENERATE_COINS_NUMBER = 1;
+    private static final int GENERATE_ENEMIES_NUMBER = 2;
 
-    private static ArrayList<Bitmap> playerSprites; // player sprites
-    private static ArrayList<Bitmap> coinSprites; // coin sprites
+    private static List<Bitmap> playerSprites; // player sprites
+    private static List<Bitmap> coinSprites; // coin sprites
+    private static List<Bitmap> enemySprites; // enemy sprites
 
     private int DEFAULT_OFFSET_BACKGROUND_ONE;
     private int DEFAULT_OFFSET_BACKGROUND_TWO;
@@ -54,7 +59,8 @@ public class GameView extends AppView {
 
     private Player player;
     private CoinScore coinScore;
-    private static ArrayList<Coin> coins;
+    private static List<Enemy> enemies;
+    private static List<Coin> coins;
 
     private static User userInfo;
     private static Bird equipedBird;
@@ -191,15 +197,27 @@ public class GameView extends AppView {
         /**
          * Init player
          */
-        if (playerSprites == null) {
-            List<Integer> sprites = (List<Integer>) BirdFactory.getInstance(context).getBirdSprites(equipedBird.getBirdType());
-            playerSprites = new ArrayList<>();
-            // Get all resources with sprites ID
-            for (Integer sprite : sprites) {
-                playerSprites.add(Util.getAutoScaledBitmapAlpha8(context, sprite, this.surfaceViewHeight, this.surfaceViewWidth, 8));
-            }
+        playerSprites = new ArrayList<>();
+        // Get all resources with sprites ID
+        for (Integer sprite : SpriteFactory.getInstance(context).getBirdSprites(equipedBird.getBirdType())) {
+            playerSprites.add(Util.getAutoScaledBitmapAlpha8(context, sprite, this.surfaceViewHeight, this.surfaceViewWidth, 8));
         }
         this.player = new Player(context, this, playerSprites);
+
+        /**
+         * Init enemies
+         */
+        if (enemySprites == null) {
+            enemySprites = new ArrayList<>();
+            for (Integer sprite : SpriteFactory.getInstance(context).getEnemySprites()) {
+                enemySprites.add(Util.getAutoScaledBitmapAlpha8(context, sprite, this.surfaceViewHeight, this.surfaceViewWidth, 8));
+            }
+        }
+        enemies = new ArrayList<>();
+        for (int i = 0; i < GENERATE_ENEMIES_NUMBER; i++) {
+            Enemy e = new Enemy(context, this, enemySprites);
+            enemies.add(e);
+        }
 
         /**
          * Init coin
@@ -210,14 +228,9 @@ public class GameView extends AppView {
         if (coins == null) {
             coins = new ArrayList<>();
             coinSprites = new ArrayList<>();
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin1, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin2, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin3, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin4, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin5, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin6, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin7, Coin.COIN_SIZE, Coin.COIN_SIZE));
-            coinSprites.add(Util.getScaledBitmapAlpha8(this.context, R.drawable.coin8, Coin.COIN_SIZE, Coin.COIN_SIZE));
+            for (Integer sprite : SpriteFactory.getInstance(context).getCoinsSprites()) {
+                coinSprites.add(Util.getScaledBitmapAlpha8(context, sprite, Coin.COIN_SIZE, Coin.COIN_SIZE));
+            }
         }
         coins.clear();
         for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
@@ -242,6 +255,9 @@ public class GameView extends AppView {
     @Override
     public void run() {
         player.move();
+        for (Enemy e : enemies) {
+            e.move();
+        }
         this.draw();
     }
 
@@ -250,6 +266,10 @@ public class GameView extends AppView {
         super.draw();
         this.offsetBackgroundOneX += BACKGROUND_PROGRESS_PER_TICK;
         this.offsetBackgroundTwoX += BACKGROUND_PROGRESS_PER_TICK;
+        // increase enemies speed
+        for (Enemy e : enemies) {
+            e.increaseSpeed();
+        }
     }
 
     @Override
@@ -288,6 +308,17 @@ public class GameView extends AppView {
                 c.draw(canvas);
             }
             coinScore.draw(canvas);
+
+            for (Enemy e : enemies) {
+                if (e.getX() < 0) {
+                    e.resetPosition();
+                }
+                if (this.player.getHitbox().intersect(e.getHitbox())) {
+                    this.player.setDead(true);
+                    pause();
+                }
+                e.draw(canvas);
+            }
         }
         else {
             pause();

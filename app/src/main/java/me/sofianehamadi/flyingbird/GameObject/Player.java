@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.AudioGame;
@@ -17,14 +19,21 @@ public class Player extends GameObject {
     private float speedX;
     private float speedY;
     private boolean dead;
+    // Note: Rotation of bitmap -> -45 to 45 degrees
+//    private Matrix playerRotation;
+//    private int rotation;
 
-    public Player(Context context, GameView view, ArrayList<Bitmap> sprites) {
+    public Player(Context context, GameView view, List<Bitmap> sprites) {
         super(context, view, sprites);
 
         this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
         this.x = view.getWidth() / 6;
         this.speedX = 0;
         this.dead = false;
+//        this.playerRotation = new Matrix();
+//        this.rotation = 0;
+//        this.playerRotation.postRotate(this.rotation);
+//        this.playerRotation.postTranslate(this.x, this.y);
 //        this.audio = new AudioGame(context, R.raw.jump_sound);
     }
 
@@ -32,11 +41,20 @@ public class Player extends GameObject {
         return dead;
     }
 
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
+//    public Matrix getPlayerRotation() {
+//        return playerRotation;
+//    }
+
     public void onTap() {
         if (!dead) {
 //            this.audio.play();
             this.speedY = getTabSpeed();
             this.y += getPosTabIncrease();
+//            this.updateRotation();
         }
     }
 
@@ -83,10 +101,12 @@ public class Player extends GameObject {
             // move
             this.x += speedX;
             this.y += speedY;
+//            this.updateRotation();
         }
         // player cannot move upper than the visible screen
         if (this.y < 0) {
             this.y = 0;
+//            this.updateRotation();
         }
 //        Log.i("Move position", "X : " + this.x + " | Y : " + this.y);
 //        Log.i("Player hitbox size", ""+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
@@ -119,9 +139,16 @@ public class Player extends GameObject {
         coin.playSound();
     }
 
+//    private void updateRotation() {
+//        this.playerRotation = new Matrix();
+//        this.playerRotation.postTranslate(this.x * 2, this.y);
+//        this.playerRotation.postRotate(45);
+//    }
+
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), x, y , null);
+//        canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), this.playerRotation, null);
 
         // Debug - Show player hitbox
 //        Paint p = new Paint();

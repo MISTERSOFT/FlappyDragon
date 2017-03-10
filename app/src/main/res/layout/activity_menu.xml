@@ -41,7 +41,8 @@
         android:layout_marginRight="40dp" />
 
     <ImageButton
-    android:id="@+id/options_button"
+        android:id="@+id/options_button"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:src="@drawable/options_unpressed"
         android:layout_marginBottom="100dp"
