@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "network.iut.org.flappydragon"
+        applicationId "me.sofianehamadi.flyingbird"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1

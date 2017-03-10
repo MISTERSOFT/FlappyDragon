@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/about_background"
+    tools:context="me.sofianehamadi.flyingbird.AboutActivity">
+
+    <TextView
+        android:text="Flying Bird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="31dp"
+        android:id="@+id/tvAboutTitle"
+        android:textStyle="normal|bold"
+        android:textSize="30sp"
+        android:textColor="@android:color/black"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Developed by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/tvAboutMe1"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/tvAboutTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:text="Sofiane HAMADI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAboutMe2"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/tvAboutMe1"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Find the source code in my repository"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvAboutRepo"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/tvAboutMe2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:text="https://github.com/MISTERSOFT/FlyingBird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView4"
+        android:autoLink="web"
+        android:textStyle="normal|italic"
+        android:textColor="@android:color/black"
+        android:textColorLink="@android:color/holo_blue_dark"
+        android:layout_below="@+id/tvAboutRepo"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

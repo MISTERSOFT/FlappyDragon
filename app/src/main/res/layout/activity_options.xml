@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_options"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/options_background"
+    tools:context="me.sofianehamadi.flyingbird.OptionsActivity"
+    android:paddingRight="40dp"
+    android:paddingLeft="40dp">
+
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="89dp"
+        android:id="@+id/seekBarMusicVolume"
+        android:max="100"
+        android:progress="100"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        style="@android:style/Widget.Holo.SeekBar" />
+
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_height="wrap_content"
+        android:src="@drawable/save_unpressed"
+        android:layout_marginBottom="100dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_centerInParent="false"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:id="@+id/seekBarFXVolume"
+        android:max="100"
+        android:progress="100"
+        style="@android:style/Widget.Holo.SeekBar"
+        android:layout_below="@+id/seekBarMusicVolume"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="FX Volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvFXVolume"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/tvMusicVolume"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Music Volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMusicVolume"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="33dp"
+        android:layout_marginLeft="0dp"
+        android:layout_above="@+id/seekBarFXVolume"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

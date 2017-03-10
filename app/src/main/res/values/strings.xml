@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Flying Bird</string>
+    <string name="restart">Restart ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="buy">Buy</string>
+    <string name="bought">Bought</string>
+    <string name="equip">Equip</string>
+    <string name="equiped">Equiped</string>
+    <string name="shop">Shop</string>
 </resources>
