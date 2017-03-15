@@ -15,7 +15,7 @@ import me.sofianehamadi.flyingbird.R;
  * Created by MISTERSOFT on 05/03/2017.
  */
 
-public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.OnErrorListener {//, MediaPlayer.OnCompletionListener {
 
     // Short sounds
     public static int PLAYER_JUMP = 1;
@@ -32,7 +32,7 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
     private float volume = 1.0f;
     private boolean isFXPlayable = false;
     private int FXPlayableCount = 0;
-    private boolean isAmbiantePlayable = false;
+//    private boolean isAmbiantePlayable = false;
     //private int AmbiantePlayableCount = 0;
 
     public AudioGame(Context _context) {
@@ -46,44 +46,71 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
         sound.setOnLoadCompleteListener(this);
 
         mediaPlayers = new HashMap<>();
-        mediaPlayers.put(AMBIANCE, MediaPlayer.create(context, R.raw.jumping_bat_nes));
+        mediaPlayers.put(AMBIANCE, this.MediaBuilder(R.raw.jumping_bat_nes));
     }
 
-    public void stop(Integer type) {
-        sound.stop(type);
+    private MediaPlayer MediaBuilder(int resId) {
+        MediaPlayer mp = MediaPlayer.create(context, resId);
+        mp.setVolume(this.volume, this.volume);
+        mp.setLooping(true);
+        return mp;
     }
 
+    /**
+     * Play ambiant music
+     * @param type Id of ambiant music
+     */
     public void playLoopAmbiantFX(Integer type) {
-        if (isAmbiantePlayable) {
-            if (this.mediaPlayers.get(type).isPlaying()) {
-                this.mediaPlayers.get(type).stop();
-            }
-            this.mediaPlayers.get(type).start();
+        if (this.mediaPlayers.get(type).isPlaying()) {
+            this.mediaPlayers.get(type).stop();
+        }
+        if (this.mediaPlayers.get(type) != null) {
+            this.mediaPlayers.get(type).release();
+            this.mediaPlayers.remove(type);
+            this.mediaPlayers.put(type, this.MediaBuilder(R.raw.jumping_bat_nes));
+        }
+        this.mediaPlayers.get(type).start();
+    }
+
+    /**
+     * Stop MediaPlayer sound
+     * @param type Type of sound
+     */
+    public void stopAmbiantFX(Integer type) {
+        this.mediaPlayers.get(type).pause();
+        this.mediaPlayers.get(type).seekTo(0);
+    }
+
+    /**
+     * Release memory
+     */
+    public void release() {
+        this.mediaPlayers.get(0).stop();
+        this.mediaPlayers.get(0).release();
+        for (int i = 0; i < soundPoolIds.size(); i++) {
+            this.sound.stop(i);
+            this.sound.release();
         }
     }
 
+    /**
+     * Play SoundPool audio
+     * @param type Type of sound
+     */
     public void playFX(Integer type) {
         if (isFXPlayable) {
-            this.stop(type);
+            this.stopFX(type);
             sound.play(type, volume, volume, 1, 0, 1.0f);
         }
-//        mediaPlayer = MediaPlayer.create(context, resourceAudioID);
-//        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mp) {
-//                stop();
-//            }
-//        });
-//        mediaPlayer.setOnErrorListener(this);
-//        mediaPlayer.start();
     }
 
-//    private void stop() {
-//        if (mediaPlayer != null) {
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
-//    }
+    /**
+     * Stop SoundPool audio
+     * @param type SoundPool ID
+     */
+    public void stopFX(Integer type) {
+        sound.stop(type);
+    }
 
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
@@ -97,20 +124,11 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
         }
     }
 
-    // TODO - Remove ?
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         if (what == 100) {
             mp.release();
         }
         return false;
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        Log.i("", "onCompletion: ambiant sound playable");
-        mp.setVolume(this.volume, this.volume);
-        mp.setLooping(true);
-        isAmbiantePlayable = true;
     }
 }

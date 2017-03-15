@@ -86,7 +86,6 @@ public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
                 public void onClick(View v) {
                     // If user have enough money
                     if (((ShopActivity) context).user.getMoney() - birds.get(position).getPrice() > 0) {
-//                        audio.play();
                         audio.playFX(AudioGame.BUY_BIRD);
 
                         // update bird

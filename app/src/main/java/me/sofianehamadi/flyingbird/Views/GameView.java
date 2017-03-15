@@ -141,10 +141,10 @@ public class GameView extends AppView {
     }
 
     private void gameOver() {
+        this.audioGame.stopAmbiantFX(AudioGame.AMBIANCE);
         this.audioGame.playFX(AudioGame.LOSE);
         userInfo.sum(this.coinScore.getTotalCoins());
         Database.getInstance(this.context).updateUser(userInfo);
-        this.audioGame.stop(AudioGame.AMBIANCE);
         // Show dialog
         ((GameActivity)this.context).runOnUiThread(new Runnable() {
             @Override
@@ -187,7 +187,6 @@ public class GameView extends AppView {
     }
 
     private void stopGame() {
-        this.audioGame.stop(AudioGame.AMBIANCE);
         boolean retry = true;
         while (retry) {
             try {
@@ -204,6 +203,7 @@ public class GameView extends AppView {
      */
     private void startGame() {
         this.paused = true;
+        this.audioGame.playLoopAmbiantFX(AudioGame.AMBIANCE);
         /**
          * First image on start
          */
@@ -279,10 +279,10 @@ public class GameView extends AppView {
 
     @Override
     public void run() {
-        if (!soundIsPlaying) {
-            this.soundIsPlaying = true;
-            this.audioGame.playLoopAmbiantFX(AudioGame.AMBIANCE);
-        }
+//        if (!soundIsPlaying) {
+//            this.soundIsPlaying = true;
+//            this.audioGame.playLoopAmbiantFX(AudioGame.AMBIANCE);
+//        }
         player.move();
         for (Enemy e : enemies) {
             e.move();
@@ -393,6 +393,7 @@ public class GameView extends AppView {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        this.audioGame.release();
         this.stopGame();
     }
 }
