@@ -11,8 +11,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.sofianehamadi.flyingbird.GameActivity;
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.AudioGame;
+import me.sofianehamadi.flyingbird.common.GameApplication;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 public class Player extends GameObject {
@@ -23,7 +25,7 @@ public class Player extends GameObject {
 //    private Matrix playerRotation;
 //    private int rotation;
 
-    public Player(Context context, GameView view, List<Bitmap> sprites) {
+    public Player(Context context, GameView view, List<Bitmap> sprites, AudioGame audioGame) {
         super(context, view, sprites);
 
         this.y = context.getResources().getDisplayMetrics().heightPixels / 2;	// Startposition in the middle of the screen
@@ -34,7 +36,7 @@ public class Player extends GameObject {
 //        this.rotation = 0;
 //        this.playerRotation.postRotate(this.rotation);
 //        this.playerRotation.postTranslate(this.x, this.y);
-//        this.audio = new AudioGame(context, R.raw.jump_sound);
+        this.audio = audioGame;
     }
 
     public boolean isDead() {
@@ -51,7 +53,7 @@ public class Player extends GameObject {
 
     public void onTap() {
         if (!dead) {
-//            this.audio.play();
+            this.audio.playFX(AudioGame.PLAYER_JUMP);
             this.speedY = getTabSpeed();
             this.y += getPosTabIncrease();
 //            this.updateRotation();

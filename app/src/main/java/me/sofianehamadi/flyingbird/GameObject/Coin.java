@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import me.sofianehamadi.flyingbird.GameActivity;
 import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.AudioGame;
+import me.sofianehamadi.flyingbird.common.GameApplication;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 /**
@@ -29,13 +31,13 @@ public class Coin extends GameObject {
     private static int[] rowsHeight;
     private static Random random;
 
-    public Coin(Context context, GameView view, List<Bitmap> sprites) {
+    public Coin(Context context, GameView view, List<Bitmap> sprites, AudioGame audioGame) {
         super(context, view, sprites);
         rowsHeight = new int[0];
         random = new Random();
         // start position - aways from the screen
         this.x =- 200;
-        this.audio = new AudioGame(context, R.raw.pickup_coin_sound);
+        this.audio = audioGame;
     }
 
     @Override
@@ -88,7 +90,7 @@ public class Coin extends GameObject {
     }
 
     public void playSound() {
-        this.audio.play();
+        this.audio.playFX(AudioGame.PICKUP_COIN);
     }
 
 //    private int[] generateColumns(int canvasWidth) {

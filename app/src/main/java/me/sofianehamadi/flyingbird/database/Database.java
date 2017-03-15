@@ -76,7 +76,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_BIRD + " (id, name, price, type, resourceName, isBought, isEquiped) VALUES(null, 'Yellow Boy',   200, '" + BirdTypeEnum.YELLOW      .name() + "', 'bird_yellow_idle_1',       0, 0)");
 
         // Feed user table
-        db.execSQL("INSERT INTO " + TABLE_USER + " VALUES(1, 0)");
+        db.execSQL("INSERT INTO " + TABLE_USER + " VALUES(1, 1000)");
     }
 
     @Override
