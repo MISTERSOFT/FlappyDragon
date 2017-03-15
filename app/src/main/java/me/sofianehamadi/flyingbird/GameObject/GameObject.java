@@ -16,7 +16,7 @@ import me.sofianehamadi.flyingbird.views.GameView;
 
 public abstract class GameObject {
 
-    private final byte frameTime;
+    private final byte frameTime = 3; // the frame will change every 3 runs
     private int frameTimeCounter;
 
     protected int x;
@@ -30,19 +30,26 @@ public abstract class GameObject {
 
     protected AudioGame audio;
 
+    public GameObject(Context context, GameView view, List<Bitmap> sprites, AudioGame audioGame) {
+        this.audio = audioGame;
+        this.init(context, view, sprites);
+    }
+
     public GameObject(Context context, GameView view, List<Bitmap> sprites) {
+        this.init(context, view, sprites);
+    }
+
+    private void init(Context context, GameView view, List<Bitmap> sprites) {
         this.context = context;
         this.view = view;
         this.gameObjectSprites = sprites;
         this.currentSprite = 0;
         this.hitbox = new Rect(
-            this.x,
-            this.y,
-            this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
-            this.y + this.gameObjectSprites.get(this.currentSprite).getHeight()
+                this.x,
+                this.y,
+                this.x + this.gameObjectSprites.get(this.currentSprite).getWidth(),
+                this.y + this.gameObjectSprites.get(this.currentSprite).getHeight()
         );
-
-        this.frameTime = 3; // the frame will change every 3 runs
     }
 
     public Rect getHitbox() {

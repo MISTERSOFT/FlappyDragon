@@ -25,12 +25,12 @@ public class Coin extends GameObject {
     private static Random random;
 
     public Coin(Context context, GameView view, List<Bitmap> sprites, AudioGame audioGame) {
-        super(context, view, sprites);
+        super(context, view, sprites, audioGame);
         rowsHeight = new int[0];
         random = new Random();
         // start position - aways from the screen
         this.x =- 200;
-        this.audio = audioGame;
+//        this.audio = audioGame;
     }
 
     @Override
