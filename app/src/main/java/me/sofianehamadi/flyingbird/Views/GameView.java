@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -15,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +21,6 @@ import me.sofianehamadi.flyingbird.GameActivity;
 import me.sofianehamadi.flyingbird.MenuActivity;
 import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.common.FontCache;
-import me.sofianehamadi.flyingbird.common.GameApplication;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.gameobject.Enemy;
 import me.sofianehamadi.flyingbird.gameobject.SpriteFactory;
@@ -141,7 +137,7 @@ public class GameView extends AppView {
     }
 
     private void gameOver() {
-        this.audioGame.stopAmbiantFX(AudioGame.AMBIANCE);
+        this.audioGame.stopAmbiantFX();
         this.audioGame.playFX(AudioGame.LOSE);
         userInfo.sum(this.coinScore.getTotalCoins());
         Database.getInstance(this.context).updateUser(userInfo);
@@ -203,7 +199,7 @@ public class GameView extends AppView {
      */
     private void startGame() {
         this.paused = true;
-        this.audioGame.playLoopAmbiantFX(AudioGame.AMBIANCE);
+        this.audioGame.playLoopAmbiantFX();
         /**
          * First image on start
          */

@@ -17,7 +17,6 @@ import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.ShopActivity;
 import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.common.FontCache;
-import me.sofianehamadi.flyingbird.common.GameApplication;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.models.Bird;
 import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;

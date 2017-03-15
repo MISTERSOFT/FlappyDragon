@@ -3,18 +3,10 @@ package me.sofianehamadi.flyingbird.gameobject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import me.sofianehamadi.flyingbird.GameActivity;
-import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.AudioGame;
-import me.sofianehamadi.flyingbird.common.GameApplication;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 public class Player extends GameObject {

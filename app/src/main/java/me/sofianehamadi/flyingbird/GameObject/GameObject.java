@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.sofianehamadi.flyingbird.common.AudioGame;

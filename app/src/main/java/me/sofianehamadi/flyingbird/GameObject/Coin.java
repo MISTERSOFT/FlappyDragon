@@ -3,18 +3,11 @@ package me.sofianehamadi.flyingbird.gameobject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.media.MediaPlayer;
-import android.util.Log;
-import android.view.SurfaceView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import me.sofianehamadi.flyingbird.GameActivity;
-import me.sofianehamadi.flyingbird.R;
 import me.sofianehamadi.flyingbird.common.AudioGame;
-import me.sofianehamadi.flyingbird.common.GameApplication;
 import me.sofianehamadi.flyingbird.views.GameView;
 
 /**
