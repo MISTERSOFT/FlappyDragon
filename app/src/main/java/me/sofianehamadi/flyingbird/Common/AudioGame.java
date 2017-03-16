@@ -110,6 +110,12 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
         sound.stop(type);
     }
 
+    /**
+     * Triggered when a sound is successfully loaded
+     * @param soundPool SoundPool
+     * @param sampleId SoundPool ID (bind to a sound)
+     * @param status Load status
+     */
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
         if (status == 0) {
@@ -122,6 +128,13 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
         }
     }
 
+    /**
+     * Triggered when MediaPlayer cannot load sound
+     * @param mp MediaPlayer
+     * @param what Load status
+     * @param extra extra
+     * @return boolean
+     */
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         if (what == 100) {

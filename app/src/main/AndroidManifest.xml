@@ -3,7 +3,6 @@
     package="me.sofianehamadi.flyingbird">
 
     <application
-        android:name=".common.GameApplication"
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"

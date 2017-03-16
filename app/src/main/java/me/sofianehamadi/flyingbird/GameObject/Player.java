@@ -3,6 +3,8 @@ package me.sofianehamadi.flyingbird.gameobject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.util.Log;
 
 import java.util.List;
 
@@ -14,8 +16,10 @@ public class Player extends GameObject {
     private float speedY;
     private boolean dead;
     // Note: Rotation of bitmap -> -45 to 45 degrees
-//    private Matrix playerRotation;
-//    private int rotation;
+    private static final float MAX_ROTATION = 45.0f;
+    private static float ROTATION_SPEED;
+    private Matrix playerRotation;
+    private float rotation;
 
     public Player(Context context, GameView view, List<Bitmap> sprites, AudioGame audioGame) {
         super(context, view, sprites, audioGame);
@@ -24,11 +28,13 @@ public class Player extends GameObject {
         this.x = view.getWidth() / 6;
         this.speedX = 0;
         this.dead = false;
-//        this.playerRotation = new Matrix();
-//        this.rotation = 0;
-//        this.playerRotation.postRotate(this.rotation);
-//        this.playerRotation.postTranslate(this.x, this.y);
-//        this.audio = audioGame;
+        // Default rotation degres
+        ROTATION_SPEED = getMaxSpeed() * 2;
+        this.playerRotation = new Matrix();
+        this.rotation = 0;
+        this.playerRotation.postTranslate(-this.gameObjectSprites.get(this.currentSprite).getWidth() / 2, -this.gameObjectSprites.get(this.currentSprite).getHeight() / 2);
+        this.playerRotation.postRotate(this.rotation);
+        this.playerRotation.postTranslate(this.x + this.gameObjectSprites.get(this.currentSprite).getWidth() / 2, this.y + this.gameObjectSprites.get(this.currentSprite).getHeight() / 2);
     }
 
     public boolean isDead() {
@@ -48,7 +54,7 @@ public class Player extends GameObject {
             this.audio.playFX(AudioGame.PLAYER_JUMP);
             this.speedY = getTabSpeed();
             this.y += getPosTabIncrease();
-//            this.updateRotation();
+            this.updateRotation();
         }
     }
 
@@ -63,7 +69,6 @@ public class Player extends GameObject {
     @Override
     public void move() {
         super.changeToNextFrame();
-//        Log.i("Player position", "X : " + x + " | Y : " + y);
 
         this.hitbox.set(
             this.x,
@@ -73,11 +78,9 @@ public class Player extends GameObject {
 
         if(speedY < 0){
             // The character is moving up
-//            Log.i("Move", "Moving up");
             speedY = speedY * 2 / 3 + getSpeedTimeDecrease() / 2;
         }else{
             // the character is moving down
-//            Log.i("Move", "Moving down");
             this.speedY += getSpeedTimeDecrease();
         }
         if(this.speedY > getMaxSpeed()){
@@ -88,22 +91,19 @@ public class Player extends GameObject {
         // player cannot fall over the visible screen
         if (this.y > this.view.getHeight() - 100) {
             // player died
-//            Log.i("Move", "You died");
             this.dead = true;
         }
         else {
             // move
             this.x += speedX;
             this.y += speedY;
-//            this.updateRotation();
+            this.updateRotation();
         }
         // player cannot move upper than the visible screen
         if (this.y < 0) {
             this.y = 0;
-//            this.updateRotation();
+            this.updateRotation();
         }
-//        Log.i("Move position", "X : " + this.x + " | Y : " + this.y);
-//        Log.i("Player hitbox size", ""+this.hitbox.width() + " w | "+this.hitbox.height() + " h");
 
         // manage frames
 /*        if(row != 3){
@@ -133,16 +133,32 @@ public class Player extends GameObject {
         coin.playSound();
     }
 
-//    private void updateRotation() {
-//        this.playerRotation = new Matrix();
-//        this.playerRotation.postTranslate(this.x * 2, this.y);
-//        this.playerRotation.postRotate(45);
-//    }
+    private void updateRotation() {
+        if (speedY >= getMaxSpeed()) {
+            this.rotation = MAX_ROTATION;
+        } else if (speedY < -getMaxSpeed()) {
+            this.rotation = -MAX_ROTATION;
+        } else {
+            if (speedY == 0) {
+                this.rotation = 0;
+            } else if (speedY >=  0) {
+                this.rotation += MAX_ROTATION / getMaxSpeed();
+            } else {
+                this.rotation -= -(MAX_ROTATION / getMaxSpeed());
+            }
+        }
+        Log.i("SpeedY", "updateRotation: " + speedY);
+        Log.i("MAX_SPEED", "updateRotation: " + getMaxSpeed());
+        this.playerRotation.reset();
+        this.playerRotation.postTranslate(-this.gameObjectSprites.get(this.currentSprite).getWidth() / 2, -this.gameObjectSprites.get(this.currentSprite).getHeight() / 2);
+        this.playerRotation.postRotate(this.rotation);
+        this.playerRotation.postTranslate(this.x + this.gameObjectSprites.get(this.currentSprite).getWidth() / 2, this.y + this.gameObjectSprites.get(this.currentSprite).getHeight() / 2);
+    }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), x, y , null);
-//        canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), this.playerRotation, null);
+//        canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), x, y , null);
+        canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), this.playerRotation, null);
 
         // Debug - Show player hitbox
 //        Paint p = new Paint();

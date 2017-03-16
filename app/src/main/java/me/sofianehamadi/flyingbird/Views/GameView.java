@@ -62,7 +62,6 @@ public class GameView extends AppView {
     private static List<Coin> coins;
 
     private AudioGame audioGame;
-    private boolean soundIsPlaying = false;
 
     private static User userInfo;
     private static Bird equipedBird;
@@ -352,7 +351,6 @@ public class GameView extends AppView {
         if (this.paused) {
             // Game Over
             if (this.player.isDead()) {
-                // canvas.drawText("Game Over", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
                 gameOver();
             }
             else {
