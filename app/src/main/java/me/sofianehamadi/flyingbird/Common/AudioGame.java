@@ -1,6 +1,7 @@
 package me.sofianehamadi.flyingbird.common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -9,7 +10,9 @@ import android.util.SparseIntArray;
 
 import java.util.HashMap;
 
+import me.sofianehamadi.flyingbird.GameActivity;
 import me.sofianehamadi.flyingbird.R;
+import me.sofianehamadi.flyingbird.core.GameApplicationConfigurations;
 
 /**
  * Created by MISTERSOFT on 05/03/2017.
@@ -27,12 +30,19 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
     private MediaPlayer mediaPlayer; // Ambiant music
     private SparseIntArray soundPoolIds;
     private SoundPool sound;
-    private float volume = 1.0f;
+    private float fxVolume;
+    private float ambiantVolume;
     private boolean isFXPlayable = false;
     private int FXPlayableCount = 0;
 
     public AudioGame(Context _context) {
         context = _context;
+
+        SharedPreferences sp = ((GameActivity)_context).getSharedPreferences(GameApplicationConfigurations.VOLUMES_PREFERENCES, Context.MODE_PRIVATE);
+        Log.d("volumes", "AudioGame: fx = " + sp.getFloat(GameApplicationConfigurations.FX_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME) + " | ambiant = " + sp.getFloat(GameApplicationConfigurations.AMBIANT_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME));
+        fxVolume = sp.getFloat(GameApplicationConfigurations.FX_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME);
+        ambiantVolume = sp.getFloat(GameApplicationConfigurations.AMBIANT_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME);
+
         soundPoolIds = new SparseIntArray();
         sound = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
         soundPoolIds.put(PLAYER_JUMP, sound.load(_context, R.raw.jump_sound, 1));
@@ -46,7 +56,7 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
 
     private MediaPlayer MediaBuilder(int resId) {
         MediaPlayer mp = MediaPlayer.create(context, resId);
-        mp.setVolume(this.volume, this.volume);
+        mp.setVolume(this.ambiantVolume, this.ambiantVolume);
         mp.setLooping(true);
         return mp;
     }
@@ -88,7 +98,7 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
     public void playFX(Integer type) {
         if (isFXPlayable) {
             this.stopFX(type);
-            sound.play(type, volume, volume, 1, 0, 1.0f);
+            sound.play(type, this.fxVolume, this.fxVolume, 1, 0, 1.0f);
         }
     }
 

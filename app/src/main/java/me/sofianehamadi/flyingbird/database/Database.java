@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
@@ -171,8 +170,12 @@ public class Database extends SQLiteOpenHelper {
         return bird;
     }
 
+    /**
+     * Convert integer to boolean
+     * @param value An integer (0 or 1)
+     * @return A boolean (0 = false, 1 = true)
+     */
     private boolean integerToBoolean(int value) {
         return value != 0;
     }
-
 }
