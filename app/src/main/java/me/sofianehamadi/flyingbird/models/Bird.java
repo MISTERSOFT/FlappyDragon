@@ -4,6 +4,9 @@ package me.sofianehamadi.flyingbird.models;
  * Created by MISTERSOFT on 26/02/2017.
  */
 
+/**
+ * Represent a bird
+ */
 public class Bird {
     private Integer id;
     /**
@@ -33,7 +36,6 @@ public class Bird {
     /**
      * Value that help to sort bird in the listview
      */
-//    private int order;
 
     public Bird(Integer id, String name, Integer price, BirdTypeEnum birdType, String resourceName, Boolean bought, Boolean equiped) {
         this.id = id;
@@ -102,12 +104,4 @@ public class Bird {
     public void setBirdType(BirdTypeEnum birdType) {
         this.birdType = birdType;
     }
-
-//    public int getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(int order) {
-//        this.order = order;
-//    }
 }

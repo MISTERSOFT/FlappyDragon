@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -15,13 +13,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.sofianehamadi.flyingbird.GameActivity;
 import me.sofianehamadi.flyingbird.MenuActivity;
+import me.sofianehamadi.flyingbird.common.AudioGame;
 import me.sofianehamadi.flyingbird.common.FontCache;
 import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.gameobject.Enemy;
@@ -45,6 +43,7 @@ public class GameView extends AppView {
     private static List<Bitmap> playerSprites; // player sprites
     private static List<Bitmap> coinSprites; // coin sprites
     private static List<Bitmap> enemySprites; // enemy sprites
+    private static Bitmap touchToPlay;
 
     private int DEFAULT_OFFSET_BACKGROUND_ONE;
     private int DEFAULT_OFFSET_BACKGROUND_TWO;
@@ -62,12 +61,14 @@ public class GameView extends AppView {
     private static List<Enemy> enemies;
     private static List<Coin> coins;
 
+    private AudioGame audioGame;
+
     private static User userInfo;
     private static Bird equipedBird;
 
-    public GameView(Context context) {
+    public GameView(Context context, AudioGame audioGame) {
         super(context);
-
+        this.audioGame = audioGame;
         /**
          * Start game when the SurfaceView is ready
          */
@@ -135,6 +136,8 @@ public class GameView extends AppView {
     }
 
     private void gameOver() {
+        this.audioGame.stopAmbiantFX();
+        this.audioGame.playFX(AudioGame.LOSE);
         userInfo.sum(this.coinScore.getTotalCoins());
         Database.getInstance(this.context).updateUser(userInfo);
         // Show dialog
@@ -153,6 +156,8 @@ public class GameView extends AppView {
                 yesRestartBtn.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        pause();
+//                        stopGame();
                         startGame();
                         resume();
                         restartDialog.dismiss();
@@ -193,7 +198,11 @@ public class GameView extends AppView {
      */
     private void startGame() {
         this.paused = true;
-
+        this.audioGame.playLoopAmbiantFX();
+        /**
+         * First image on start
+         */
+        touchToPlay = Util.getAutoScaledBitmapAlpha8(context, R.drawable.touch_to_play, this.surfaceViewHeight, this.surfaceViewWidth, 4);
         /**
          * Init player
          */
@@ -202,7 +211,7 @@ public class GameView extends AppView {
         for (Integer sprite : SpriteFactory.getInstance(context).getBirdSprites(equipedBird.getBirdType())) {
             playerSprites.add(Util.getAutoScaledBitmapAlpha8(context, sprite, this.surfaceViewHeight, this.surfaceViewWidth, 8));
         }
-        this.player = new Player(context, this, playerSprites);
+        this.player = new Player(context, this, playerSprites, audioGame);
 
         /**
          * Init enemies
@@ -234,7 +243,7 @@ public class GameView extends AppView {
         }
         coins.clear();
         for (int i = 0; i < GENERATE_COINS_NUMBER; i++) {
-            Coin c = new Coin(this.context, this, coinSprites);
+            Coin c = new Coin(this.context, this, coinSprites, audioGame);
             coins.add(c);
         }
         /**
@@ -250,10 +259,25 @@ public class GameView extends AppView {
         DEFAULT_OFFSET_BACKGROUND_TWO = -BACKGROUND_WIDTH;
         this.offsetBackgroundOneX = DEFAULT_OFFSET_BACKGROUND_ONE;
         this.offsetBackgroundTwoX = DEFAULT_OFFSET_BACKGROUND_TWO;
+
+        /**
+         * Start the game in a new thread
+         */
+        this.viewThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GameView.this.run();
+            }
+        });
+        this.viewThread.start();
     }
 
     @Override
     public void run() {
+//        if (!soundIsPlaying) {
+//            this.soundIsPlaying = true;
+//            this.audioGame.playLoopAmbiantFX(AudioGame.AMBIANCE);
+//        }
         player.move();
         for (Enemy e : enemies) {
             e.move();
@@ -284,7 +308,7 @@ public class GameView extends AppView {
             if (this.offsetBackgroundTwoX < BACKGROUND_WIDTH) {
                 backgrounds.get(1).draw(canvas, this.offsetBackgroundTwoX);
             }
-//        Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
+            // Log.i("offsets", "One : " + offsetBackgroundOneX + " | Two : " + offsetBackgroundTwoX);
             // reset position of the first background
             // Don't know why a little piece of screen still bugged with all good values
             // so I add 10px to the new position of each background and this has solved the problem
@@ -327,12 +351,15 @@ public class GameView extends AppView {
         if (this.paused) {
             // Game Over
             if (this.player.isDead()) {
-//                canvas.drawText("Game Over", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
                 gameOver();
             }
             else {
                 // Just pause the game
-                canvas.drawText("Pause", canvas.getWidth() / 2, canvas.getHeight() / 2, new Paint());
+                canvas.drawBitmap(
+                        touchToPlay,
+                        (canvas.getWidth() / 2) - (touchToPlay.getWidth() / 2),
+                        (canvas.getHeight() / 2) - (touchToPlay.getHeight() / 2),
+                        null);
             }
         }
     }
@@ -346,13 +373,13 @@ public class GameView extends AppView {
         /**
          * Start the game in a new thread
          */
-        this.viewThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GameView.this.run();
-            }
-        });
-        this.viewThread.start();
+//        this.viewThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                GameView.this.run();
+//            }
+//        });
+//        this.viewThread.start();
     }
 
     @Override
@@ -360,6 +387,7 @@ public class GameView extends AppView {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        this.audioGame.release();
         this.stopGame();
     }
 }

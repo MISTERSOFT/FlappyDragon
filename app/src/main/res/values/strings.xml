@@ -8,4 +8,6 @@
     <string name="equip">Equip</string>
     <string name="equiped">Equiped</string>
     <string name="shop">Shop</string>
+    <string name="ambiant_volume">Ambiant Volume</string>
+    <string name="fx_volume">FX Volume</string>
 </resources>
