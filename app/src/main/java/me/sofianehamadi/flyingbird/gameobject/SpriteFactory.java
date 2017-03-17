@@ -15,13 +15,31 @@ import me.sofianehamadi.flyingbird.models.BirdTypeEnum;
  * Created by MISTERSOFT on 27/02/2017.
  */
 
+/**
+ * Contain all resource ids of each sprites
+ */
 public class SpriteFactory {
-
+    /**
+     * SpriteFactory instance
+     */
     private static SpriteFactory instance;
+    /**
+     * List of birds bind to its own sprites
+     */
     private static HashMap<BirdTypeEnum, List<Integer>> birds;
+    /**
+     * List of enemy sprites
+     */
     private static Collection<Integer> enemies;
+    /**
+     * List of coin sprites
+     */
     private static Collection<Integer> coins;
 
+    /**
+     * Constructor
+     * @param context Context
+     */
     private SpriteFactory(Context context) {
         /************************************
          * Birds
@@ -53,7 +71,7 @@ public class SpriteFactory {
 
         /**
          * Brush Cutter bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.BURSH_CUTTER, Arrays.asList(
             R.drawable.bird_brush_cutter_idle_1,
@@ -62,7 +80,7 @@ public class SpriteFactory {
 
         /**
          * Chicken bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.CHICKEN, Arrays.asList(
             R.drawable.bird_chicken_idle_1,
@@ -73,7 +91,7 @@ public class SpriteFactory {
 
         /**
          * Duck bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.DUCK, Arrays.asList(
             R.drawable.bird_duck_idle_1,
@@ -94,7 +112,7 @@ public class SpriteFactory {
 
         /**
          * Monster bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.MONSTER, Arrays.asList(
             R.drawable.bird_monster_idle_1,
@@ -105,7 +123,7 @@ public class SpriteFactory {
 
         /**
          * Pink bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.PINK, Arrays.asList(
             R.drawable.bird_pink_idle_1,
@@ -114,7 +132,7 @@ public class SpriteFactory {
 
         /**
          * Red bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.RED, Arrays.asList(
             R.drawable.bird_red_idle_1,
@@ -131,7 +149,7 @@ public class SpriteFactory {
 
         /**
          * Stupid bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.STUPID, Arrays.asList(
             R.drawable.bird_stupid_idle_1,
@@ -146,7 +164,7 @@ public class SpriteFactory {
 
         /**
          * Tiny bird
-         * NOTE: Have hit sprite
+         * NOTE: Have hit sprite (not used)
          */
         birds.put(BirdTypeEnum.TINY, Arrays.asList(
             R.drawable.bird_tiny_idle_1,
@@ -198,6 +216,11 @@ public class SpriteFactory {
         );
     }
 
+    /**
+     * Get SpriteFactory instance
+     * @param context Context
+     * @return SpriteFactory
+     */
     public static SpriteFactory getInstance(Context context) {
         if (instance == null) {
             instance = new SpriteFactory(context);
@@ -205,14 +228,27 @@ public class SpriteFactory {
         return instance;
     }
 
+    /**
+     * Get all sprite of a bird
+     * @param type Type of bird
+     * @return List of resource id
+     */
     public Collection<Integer> getBirdSprites(BirdTypeEnum type) {
         return birds.get(type);
     }
 
+    /**
+     * Get all sprite of enemy
+     * @return List of resource id
+     */
     public Collection<Integer> getEnemySprites() {
         return enemies;
     }
 
+    /**
+     * Get all sprite of coin
+     * @return List of resource id
+     */
     public Collection<Integer> getCoinsSprites() {
         return coins;
     }

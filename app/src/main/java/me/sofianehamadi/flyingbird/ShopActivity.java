@@ -15,11 +15,14 @@ import me.sofianehamadi.flyingbird.models.adapters.ListViewItemBirdAdapter;
 
 public class ShopActivity extends AppCompatActivity {
 
-    private static TextView tvTitle;
-    private static TextView tvCoins;
-
+    /**
+     * Total player coins
+     */
+    private TextView tvCoins;
+    /**
+     * User information
+     */
     public User user;
-    private static ArrayList<Bird> birds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,7 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop);
 
 
-        tvTitle = (TextView) findViewById(R.id.textViewShopTitle);
+        final TextView tvTitle = (TextView) findViewById(R.id.textViewShopTitle);
         tvTitle.setTypeface(FontCache.getTypeface(this, FontCache.PixelOperatorMono8));
 
         tvCoins = (TextView) findViewById(R.id.shop_coins_earn);
@@ -35,14 +38,17 @@ public class ShopActivity extends AppCompatActivity {
         updateMoney();
 
         /**
-         * Init listView
+         * Init listView of birds
          */
-        birds = Database.getInstance(this).getAllBirds();
+        ArrayList<Bird> birds = Database.getInstance(this).getAllBirds();
         ListView listViewBirds = (ListView) findViewById(R.id.listViewShop);
         ListViewItemBirdAdapter birdAdapter = new ListViewItemBirdAdapter(this, R.layout.listview_item_bird, birds);
         listViewBirds.setAdapter(birdAdapter);
     }
 
+    /**
+     * Update user total coins
+     */
     public void updateMoney() {
         user = Database.getInstance(this).getUser();
         tvCoins.setText(user.getMoney().toString());

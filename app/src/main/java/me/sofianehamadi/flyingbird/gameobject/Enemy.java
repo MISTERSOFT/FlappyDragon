@@ -16,11 +16,25 @@ import me.sofianehamadi.flyingbird.views.GameView;
  * Created by MISTERSOFT on 10/03/2017.
  */
 
+/**
+ * Represent an enemy in game
+ */
 public class Enemy extends GameObject {
+    /**
+     * Max speed
+     */
     private final float MAX_SPEED = 21.2f;
+    /**
+     * Increase speed value
+     */
     private final float INCREASE_SPEED = 0.1f;
+    /**
+     * Current speed
+     */
     private float currentSpeed;
-
+    /**
+     * Random
+     */
     private Random random;
 
     public Enemy(Context context, GameView view, List<Bitmap> sprites) {
@@ -32,6 +46,10 @@ public class Enemy extends GameObject {
         this.y = 200;
     }
 
+    /**
+     * Draw enemy on canvas
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(this.gameObjectSprites.get(this.currentSprite), this.x, this.y, null);
@@ -43,6 +61,9 @@ public class Enemy extends GameObject {
         this.nextSprite();
     }
 
+    /**
+     * Move enemy
+     */
     @Override
     public void move() {
         this.hitbox.set(
@@ -57,14 +78,24 @@ public class Enemy extends GameObject {
         this.x += this.getSpeed();
     }
 
+    /**
+     * Get calculated speed
+     * @return
+     */
     private float getSpeed() {
         return -super.view.getWidth() / this.currentSpeed;
     }
 
+    /**
+     * Increase enemy speed
+     */
     public void increaseSpeed() {
         this.currentSpeed -= INCREASE_SPEED;
     }
 
+    /**
+     * Reset enemy position
+     */
     public void resetPosition() {
         int minOutsideWidth = view.getWidth() + 20;
         int minOutsideHeight = 50;

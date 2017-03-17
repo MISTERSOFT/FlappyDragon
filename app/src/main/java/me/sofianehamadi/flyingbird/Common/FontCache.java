@@ -9,6 +9,9 @@ import java.util.HashMap;
  * Created by MISTERSOFT on 25/02/2017.
  */
 
+/**
+ * Store fonts in memory
+ */
 public class FontCache {
 
     /**
@@ -18,7 +21,7 @@ public class FontCache {
     public static final Integer SMALL = 10;
 
     /**
-     * Fonts
+     * Fonts available
      */
     public static final String PixelOperatorMono8 = "PixelOperatorMono8.ttf";
 
@@ -27,6 +30,12 @@ public class FontCache {
      */
     private static HashMap<String, Typeface> cache = new HashMap<>();
 
+    /**
+     * Get a font
+     * @param context Context
+     * @param fontName Name of the font
+     * @return Typeface
+     */
     public static Typeface getTypeface(Context context, String fontName) {
         Typeface font = cache.get(fontName);
         if (font == null) {

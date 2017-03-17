@@ -11,35 +11,42 @@ import me.sofianehamadi.flyingbird.common.Util;
  * Created by MISTERSOFT on 16/02/2017.
  */
 
+/**
+ * Represent a Game User Interface element
+ */
 public abstract class GUIObject {
-    private final byte frameTime;
-    private int frameTimeCounter;
-
+    /**
+     * Current position X
+     */
     protected int x;
+    /**
+     * Current position Y
+     */
     protected int y;
+    /**
+     * Image to display
+     */
     protected Bitmap image;
+    /**
+     * View
+     */
     protected GameView view;
+    /**
+     * Context
+     */
     protected Context context;
 
-    public GUIObject(Context context, GameView view, int imageId) {
-        this.context = context;
-        this.image = Util.getScaledBitmapAlpha8(context, imageId);
-        this.view = view;
-        this.frameTime = 3;
-    }
-
+    /**
+     * Constructor
+     * @param context Context
+     * @param view View
+     * @param imageId Resource id of the image
+     * @param height Height to the image
+     * @param width Width to the image
+     */
     public GUIObject(Context context, GameView view, int imageId, int height, int width) {
         this.image = Util.getScaledBitmapAlpha8(context, imageId, height, width);
         this.view = view;
-        this.frameTime = 3;
-    }
-
-    protected void changeToNextFrame() {
-        this.frameTimeCounter++;
-        if(this.frameTimeCounter >= this.frameTime){
-            //TODO Change frame
-            this.frameTimeCounter = 0;
-        }
     }
 
     public abstract void draw(Canvas canvas);

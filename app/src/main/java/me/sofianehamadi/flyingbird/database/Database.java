@@ -18,14 +18,32 @@ import me.sofianehamadi.flyingbird.models.User;
 
 public class Database extends SQLiteOpenHelper {
 
+    /**
+     * Database instance
+     */
     private static Database instance;
-
+    /**
+     * Database version
+     */
     private static final int DATABASE_VERSION = 1;
+    /**
+     * Database name
+     */
     private static final String DATABASE_NAME = "db_flyingbird";
-
+    /**
+     * Name of bird table
+     */
     private static final String TABLE_BIRD = "Bird";
+    /**
+     * Name of user table
+     */
     private static final String TABLE_USER = "User";
 
+    /**
+     * Get instance of Database
+     * @param context Context
+     * @return Database
+     */
     public static Database getInstance(Context context) {
         if (instance == null) {
             instance = new Database(context.getApplicationContext());
@@ -33,13 +51,21 @@ public class Database extends SQLiteOpenHelper {
         return instance;
     }
 
+    /**
+     * Constructor
+     * @param context Context
+     */
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         // TODO - REMOVE
-        context.deleteDatabase(DATABASE_NAME);
+        // context.deleteDatabase(DATABASE_NAME);
     }
 
+    /**
+     * Create tables
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Bird table
@@ -84,6 +110,10 @@ public class Database extends SQLiteOpenHelper {
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BIRD);
     }
 
+    /**
+     * Get user information
+     * @return User
+     */
     public User getUser() {
         User user = new User();
 
@@ -100,6 +130,10 @@ public class Database extends SQLiteOpenHelper {
         return user;
     }
 
+    /**
+     * Update user information
+     * @param user User
+     */
     public void updateUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -110,6 +144,11 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Update bird values
+     * @param bird Bird
+     * @param resetEquiped If true, reset value "isEquiped" to 0
+     */
     public void updateBird(Bird bird, boolean resetEquiped) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -129,6 +168,10 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Get all birds
+     * @return List of birds
+     */
     public ArrayList<Bird> getAllBirds() {
         ArrayList<Bird> birds = new ArrayList<>();
 
@@ -154,6 +197,10 @@ public class Database extends SQLiteOpenHelper {
         return birds;
     }
 
+    /**
+     * Get current equiped bird
+     * @return Bird
+     */
     public Bird getEquipedBird() {
         Bird bird = new Bird();
 

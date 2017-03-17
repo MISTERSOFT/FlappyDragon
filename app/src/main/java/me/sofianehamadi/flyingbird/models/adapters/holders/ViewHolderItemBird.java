@@ -8,6 +8,9 @@ import android.widget.TextView;
  * Created by MISTERSOFT on 26/02/2017.
  */
 
+/**
+ * Holder of bird item
+ */
 public class ViewHolderItemBird {
     public ImageView birdImage;
     public TextView birdName;

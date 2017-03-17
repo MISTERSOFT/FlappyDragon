@@ -14,13 +14,13 @@ import me.sofianehamadi.flyingbird.database.Database;
 import me.sofianehamadi.flyingbird.models.User;
 
 public class MenuActivity extends AppCompatActivity {
-
-    private ImageButton playButton;
-    private ImageButton shopButton;
-    private ImageButton aboutButton;
-    private ImageButton optionsButton;
+    /**
+     * Total player coins
+     */
     private TextView coins_earn;
-
+    /**
+     * User informations
+     */
     private User user;
 
     @Override
@@ -44,22 +44,23 @@ public class MenuActivity extends AppCompatActivity {
         /**
          * Add listeners on buttons
          */
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        shopButton = (ImageButton) findViewById(R.id.shop_button);
-        aboutButton = (ImageButton) findViewById(R.id.about_button);
-        optionsButton = (ImageButton) findViewById(R.id.options_button);
+        final ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
+        final ImageButton shopButton = (ImageButton) findViewById(R.id.shop_button);
+        final ImageButton aboutButton = (ImageButton) findViewById(R.id.about_button);
+        final ImageButton optionsButton = (ImageButton) findViewById(R.id.options_button);
 
+        /**
+         * Button to go on Game activity
+         */
         playButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        Log.i("Btn - Play", "onTouch: Action_down");
                         playButton.setImageResource(R.drawable.play_pressed);
                         break;
 
                     case MotionEvent.ACTION_UP:
-                        Log.i("Btn - Play", "onTouch: Action_up");
                         playButton.setImageResource(R.drawable.play_unpressed);
                         startActivity(new Intent(MenuActivity.this, GameActivity.class));
                         break;
@@ -70,6 +71,9 @@ public class MenuActivity extends AppCompatActivity {
                 return false;
             }
         });
+        /**
+         * Button to go on Shop activity
+         */
         shopButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -89,6 +93,9 @@ public class MenuActivity extends AppCompatActivity {
                 return false;
             }
         });
+        /**
+         * Button to go on About activity
+         */
         aboutButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -108,6 +115,9 @@ public class MenuActivity extends AppCompatActivity {
                 return false;
             }
         });
+        /**
+         * Button to go on Options activity
+         */
         optionsButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -129,6 +139,9 @@ public class MenuActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * On activity restart, reload information displayed
+     */
     @Override
     protected void onRestart() {
         this.loadUserInfo();
@@ -136,10 +149,16 @@ public class MenuActivity extends AppCompatActivity {
         super.onRestart();
     }
 
+    /**
+     * Load user information
+     */
     private void loadUserInfo() {
         this.user = Database.getInstance(this).getUser();
     }
 
+    /**
+     * Refresh player total coin
+     */
     private void updateCoinEarned() {
         this.coins_earn.setText(user.getMoney().toString());
     }

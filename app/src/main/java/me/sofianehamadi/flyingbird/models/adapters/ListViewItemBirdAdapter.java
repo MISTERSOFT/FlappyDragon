@@ -25,11 +25,29 @@ import me.sofianehamadi.flyingbird.models.adapters.holders.ViewHolderItemBird;
  * Created by MISTERSOFT on 26/02/2017.
  */
 
+/**
+ * List view adapter for birds
+ */
 public class ListViewItemBirdAdapter extends ArrayAdapter<Bird> {
+    /**
+     * Context
+     */
     private final Context context;
+    /**
+     * List of birds
+     */
     private List<Bird> birds;
+    /**
+     * AudioGame
+     */
     private AudioGame audio;
 
+    /**
+     * Contructor
+     * @param context
+     * @param resource
+     * @param objects
+     */
     public ListViewItemBirdAdapter(Context context, int resource, List<Bird> objects) {
         super(context, resource, objects);
         this.context = context;

@@ -22,18 +22,54 @@ import me.sofianehamadi.flyingbird.core.GameApplicationConfigurations;
 public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.OnErrorListener {
 
     // Short sounds
+    /**
+     * ID of jump sound
+     */
     public static int PLAYER_JUMP = 1;
+    /**
+     * ID of pick up coin sound
+     */
     public static int PICKUP_COIN = 2;
+    /**
+     * ID of buy sound
+     */
     public static int BUY_BIRD = 3;
+    /**
+     * ID of lose sound
+     */
     public static int LOSE = 4;
 
+    /**
+     * Context
+     */
     private Context context;
-    private MediaPlayer mediaPlayer; // Ambiant music
+    /**
+     * MediaPlayer for ambiant music
+     */
+    private MediaPlayer mediaPlayer;
+    /**
+     * Array of SoundPool Ids
+     */
     private SparseIntArray soundPoolIds;
+    /**
+     * SoundPool
+     */
     private SoundPool sound;
+    /**
+     * Current FX volume
+     */
     private float fxVolume;
+    /**
+     * Current ambiant volume
+     */
     private float ambiantVolume;
+    /**
+     * Can play FX sounds, true if all sounds has been successfully loaded
+     */
     private boolean isFXPlayable = false;
+    /**
+     * Count each FX sounds loaded
+     */
     private int FXPlayableCount = 0;
 
     public AudioGame(Context _context) {
@@ -55,6 +91,11 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
         mediaPlayer = this.MediaBuilder(R.raw.jumping_bat_nes);
     }
 
+    /**
+     * Build the MediaPlayer
+     * @param resId
+     * @return
+     */
     private MediaPlayer MediaBuilder(int resId) {
         MediaPlayer mp = MediaPlayer.create(context, resId);
         mp.setVolume(this.ambiantVolume, this.ambiantVolume);
