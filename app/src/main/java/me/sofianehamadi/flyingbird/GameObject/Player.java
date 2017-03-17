@@ -134,19 +134,18 @@ public class Player extends GameObject {
     }
 
     private void updateRotation() {
-        if (speedY >= getMaxSpeed()) {
+        if (speedY > getMaxSpeed()) {
             this.rotation = MAX_ROTATION;
         } else if (speedY < -getMaxSpeed()) {
             this.rotation = -MAX_ROTATION;
+        } else if (speedY == 0) {
+            this.rotation = 0;
+        } else if (speedY >  0) {
+            this.rotation += MAX_ROTATION / getMaxSpeed();
         } else {
-            if (speedY == 0) {
-                this.rotation = 0;
-            } else if (speedY >=  0) {
-                this.rotation += MAX_ROTATION / getMaxSpeed();
-            } else {
-                this.rotation -= -(MAX_ROTATION / getMaxSpeed());
-            }
+            this.rotation -= -(MAX_ROTATION / getMaxSpeed());
         }
+
         Log.i("SpeedY", "updateRotation: " + speedY);
         Log.i("MAX_SPEED", "updateRotation: " + getMaxSpeed());
         this.playerRotation.reset();

@@ -1,5 +1,6 @@
 package me.sofianehamadi.flyingbird.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -38,7 +39,7 @@ public class AudioGame implements SoundPool.OnLoadCompleteListener, MediaPlayer.
     public AudioGame(Context _context) {
         context = _context;
 
-        SharedPreferences sp = ((GameActivity)_context).getSharedPreferences(GameApplicationConfigurations.VOLUMES_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sp = _context.getSharedPreferences(GameApplicationConfigurations.VOLUMES_PREFERENCES, Context.MODE_PRIVATE);
         Log.d("volumes", "AudioGame: fx = " + sp.getFloat(GameApplicationConfigurations.FX_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME) + " | ambiant = " + sp.getFloat(GameApplicationConfigurations.AMBIANT_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME));
         fxVolume = sp.getFloat(GameApplicationConfigurations.FX_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME);
         ambiantVolume = sp.getFloat(GameApplicationConfigurations.AMBIANT_VOLUME, GameApplicationConfigurations.DEFAULT_VOLUME);
